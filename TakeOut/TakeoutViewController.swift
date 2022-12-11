@@ -297,6 +297,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
         currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         let foodView = cachedScrollView[currentIndex]
         
+        print("currentIndex: \(currentIndex)")
         UIView.animate(withDuration: 0.3) {
             self.addItem.alpha = 1
         }
@@ -304,6 +305,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
         
         if currentIndex == cachedScrollView.count - 1 {
             remakeScrollView()
+            currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         }
     }
     
@@ -324,6 +326,9 @@ extension TakeoutViewController: UIScrollViewDelegate {
         let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
         let currentFood = cachedScrollView[foodIdx]
         
+        print("foodIdx: \(foodIdx)")
+        print("contentOffset: \(scrollView.contentOffset.x)")
+        
         let x = scrollView.contentOffset.x
         
         // rate means moved rate compare the whole page moved.
@@ -331,20 +336,20 @@ extension TakeoutViewController: UIScrollViewDelegate {
 
         // for current food, right means swap left
         // direction is the food moved direction.
-        var direction = x > CGFloat(currentIndex) * self.view.frame.width ? Direction.left : Direction.right
+        let direction = x > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
     
         var nextFood: AnimateView = currentFood
         
         switch direction {
         case .left:
             // if direction left, means moved to next page
-            if currentIndex + 1 < cachedScrollView.count {
-                nextFood = cachedScrollView[currentIndex + 1]
+            if foodIdx + 1 < cachedScrollView.count {
+                nextFood = cachedScrollView[foodIdx + 1]
             }
         case .right:
             // if direction right, means moved to pre page
-            if currentIndex - 1 > 0 {
-                nextFood = cachedScrollView[currentIndex - 1]
+            if foodIdx - 1 > 0 {
+                nextFood = cachedScrollView[foodIdx - 1]
             }
         }
         

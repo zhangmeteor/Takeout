@@ -135,13 +135,25 @@ final class FriesView: BaseAnimateView {
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
+        if rate == 0 {
+            return
+        }
         var rate = rate
 //        if let index = index, currentIdx != index - 1, index != 0 {
 //            rate = 1 - rate
 //        }
-//
-        friesLeft.transform = CGAffineTransformMakeTranslation(0, rate * 200)
-        friesRight.transform = CGAffineTransformMakeTranslation(0, rate * 200)
+        
+        switch animate {
+        case .animateIn:
+            rate = 1 - rate
+        case .animateOut:
+            break
+        }
+        
+        print("fried: \(rate)")
+
+        friesLeft.transform = CGAffineTransformMakeTranslation(0, rate * 80)
+        friesRight.transform = CGAffineTransformMakeTranslation(0, rate * 80)
     }
     
     override func initializeLayout() {
@@ -198,6 +210,12 @@ final class LatteView: BaseAnimateView {
         }
         
         var rate = rate
+        switch animate {
+        case .animateIn:
+            break
+        case .animateOut:
+            rate = 1 - rate
+        }
 //        if let index = index, currentIdx != index - 1 {
 //            rate = 1 - rate
 //        }
@@ -248,7 +266,6 @@ final class BuggerView: BaseAnimateView {
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         if rate == 0 {
-//            burgerTop.transform = CGAffineTransformIdentity
             return
         }
        
@@ -259,7 +276,7 @@ final class BuggerView: BaseAnimateView {
         case .animateOut:
             break
         }
-//        let rate: Double = direction == .left ?  1 - rate : rate
+        
         print("burger: \(rate)")
         burgerTop.transform = CGAffineTransformMakeTranslation(0, rate * Constant.expandHeight)
     }
