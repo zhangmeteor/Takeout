@@ -27,6 +27,11 @@ enum Direction {
     case right
 }
 
+enum Edge {
+    case front
+    case end
+}
+
 enum AnimateType {
     case animateIn
     case animateOut

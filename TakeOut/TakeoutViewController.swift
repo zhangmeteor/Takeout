@@ -52,12 +52,11 @@ class TakeoutViewController: UIViewController {
     /// added food on plates
     lazy var plates = UIImageView(image: UIImage(named: "plates"))
     
+    /// Location  information updated
     lazy var locationView = LocationView()
 
-    
     /// Current food index.
     var currentIndex = 0
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,11 +68,17 @@ class TakeoutViewController: UIViewController {
         prepareMenu()
 
         UIBinding()
-        
+        updateInitialState()
+    }
+    
+    private func updateInitialState() {
         // try to retrive location at begining
         vm.locationManager.start()
         
-        // initialize show price automatic
+        // scrollview move last to front to support loop
+        remakeScrollView(.front)
+        
+        // initialize price automatic at begining
         let foodView = vm.foodViews[currentIndex]
         foodView.showPrice()
     }
@@ -115,7 +120,7 @@ class TakeoutViewController: UIViewController {
         // refresh plates UI
         vm.shoppingCart.subscribe(onNext: { [weak self] value in
             guard let self = self else { return }
-            let food = self.vm.foodViews[self.currentIndex]
+            let food = self.cachedScrollView[self.currentIndex]
             let iconView = food.smallIcon
             
             self.collideAlgorithm(food.position, icon: iconView)
@@ -192,7 +197,7 @@ class TakeoutViewController: UIViewController {
     
     @objc
     func addItemToBottom() {
-        let food = vm.foodViews[currentIndex]
+        let food = cachedScrollView[currentIndex]
         let iconView = food.smallIcon
         guard iconView.superview != container else {
            return
@@ -266,13 +271,22 @@ class TakeoutViewController: UIViewController {
 // MARK: Loop scrollview
 extension TakeoutViewController {
     /// move first element to last, this make loop happends
-    fileprivate func attachLoopView() {
-        guard let firstView = cachedScrollView.first else {
-            return
+    fileprivate func attachLoopView(_ position: Edge) {
+        var index = 0
+        switch position {
+        case .front:
+            index = cachedScrollView.count - 1
+            
+            let replaceView = cachedScrollView[index]
+            cachedScrollView.remove(at: index)
+            cachedScrollView.insert(replaceView, at: 0)
+        case .end:
+            index = 0
+            
+            let replaceView = cachedScrollView[index]
+            cachedScrollView.remove(at: index)
+            cachedScrollView.append(replaceView)
         }
-        
-        cachedScrollView.remove(at: 0)
-        cachedScrollView.append(firstView)
     }
     
     ///  remove all food view from superview
@@ -283,11 +297,17 @@ extension TakeoutViewController {
     }
     
     /// remake Scrollview to support loop, called this method when reach the edge.
-    fileprivate func remakeScrollView() {
-        attachLoopView()
+    fileprivate func remakeScrollView(_ position: Edge) {
+        attachLoopView(position)
         removeAllFoodView()
         prepareFoodLayout(cachedScrollView, isInitialize: false)
-        scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - view.frame.width, y: scrollView.contentOffset.y)
+        
+        switch position {
+        case .front:
+            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x + view.frame.width, y: scrollView.contentOffset.y)
+        case .end:
+            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - view.frame.width, y: scrollView.contentOffset.y)
+        }
     }
 }
 
@@ -303,8 +323,13 @@ extension TakeoutViewController: UIScrollViewDelegate {
         }
         foodView.showPrice()
         
-        if currentIndex == cachedScrollView.count - 1 {
-            remakeScrollView()
+        if currentIndex == 0 {
+            remakeScrollView(.front)
+            currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
+        }
+        
+        if currentIndex >= cachedScrollView.count - 1 {
+            remakeScrollView(.end)
             currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         }
     }
@@ -369,45 +394,12 @@ extension TakeoutViewController: UIScrollViewDelegate {
         }
         
         // Star always need update
+        // update starts layout path rely on food index in foodViews.
         if let originFoodIndex = vm.foodViews.firstIndex(where: { food in
             food.name == currentFood.name
         }) {
             vm.stars.updateLayout(rate, direction: direction, originFoodIndex: originFoodIndex)
         }
-        
-        
-//
-//        // currentIdx is first
-//        if x < self.view.frame.width {
-//            let rate = x / self.view.frame.width
-//
-//            _ = cachedScrollView.map { food in
-//                if currentFood == food {
-//                    x >
-//                    food.updateLayout(rate, 0)
-//                }
-//                food.updateLayout(rate, 0)
-//            }
-//            vm.stars.updateLayout(rate, 0)
-//        }
-//
-//        if self.view.frame.width...self.view.frame.width * 2 ~= x {
-//            let rate = 1 - (self.view.frame.width * 2 - x) / self.view.frame.width
-//
-//            _ = vm.foodViews.map { view in
-//                view.updateLayout(rate, 1)
-//            }
-//            vm.stars.updateLayout(rate, 1)
-//        }
-//
-//        if self.view.frame.width * 2...self.view.frame.width * 3 ~= x {
-//            let rate = (self.view.frame.width * 3 - x) / self.view.frame.width
-//            _ = vm.foodViews.map { view in
-//                view.updateLayout(rate, 2)
-//            }
-//
-//            vm.stars.updateLayout(rate, 2)
-//        }
     }
 }
 
