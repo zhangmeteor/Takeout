@@ -21,7 +21,6 @@ final class LatteView: BaseAnimateView {
         
         position = .middle
         smallIcon = UIImageView(image: UIImage(named: "latte_small"))
-        self.name = "Latte"
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {

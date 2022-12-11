@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 class TakeoutViewController: UIViewController {
-    let vm = TakeoutViewModel()
+    var vm = TakeoutViewModel()
  
     private lazy var navigator: Navigator = {
         let nav = Navigator(menus: vm.menusViews)

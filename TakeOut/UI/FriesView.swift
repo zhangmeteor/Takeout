@@ -22,7 +22,6 @@ final class FriesView: BaseAnimateView {
         
         self.position = .right
         self.smallIcon = UIImageView(image: UIImage(named: "fires_small"))
-        self.name = "Fires"
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {

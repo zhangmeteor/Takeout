@@ -1,0 +1,6 @@
+framework module Pods_TakeOutTests {
+  umbrella header "Pods-TakeOutTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

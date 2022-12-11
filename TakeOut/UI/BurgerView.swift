@@ -21,7 +21,6 @@ final class BuggerView: BaseAnimateView {
         
         position = .left
         smallIcon = UIImageView(image: UIImage(named: "burger_small"))
-        self.name = "Bugger"
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {

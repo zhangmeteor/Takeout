@@ -10,3 +10,9 @@ target 'TakeOut' do
   # Pods for TakeOut
 
 end
+
+target 'TakeOutTests' do
+  use_frameworks!
+  pod 'RxSwift'
+  pod 'RxCocoa'
+end

@@ -36,8 +36,9 @@ class BaseAnimateView: UIView, AnimateView {
     
     required init(food: Food) {
         data = food
-        
+        name = food.name
         super.init(frame: .zero)
+
         initializeLayout()
     }
     
