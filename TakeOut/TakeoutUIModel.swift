@@ -44,6 +44,7 @@ class BaseAnimateView: UIView, AnimateView {
         let lb = UILabel()
         lb.textColor = redColor
         lb.font = UIFont.systemFont(ofSize: 32)
+        lb.alpha = 0
         
         return lb
     }()
@@ -52,6 +53,7 @@ class BaseAnimateView: UIView, AnimateView {
         let p = UILabel()
         p.textColor = redColor
         p.font = UIFont.systemFont(ofSize: 24)
+        p.alpha = 0
         
         return p
     }()
@@ -92,13 +94,26 @@ class BaseAnimateView: UIView, AnimateView {
     }
     
     func hidePrice() {
-        foodName.alpha = 0
-        price.alpha = 0
+        UIView.animate(withDuration: 0.3) {
+            self.foodName.transform = CGAffineTransformMakeTranslation(0, 20)
+            self.price.transform = CGAffineTransformMakeTranslation(0, 20)
+            
+            self.foodName.alpha = 0
+            self.price.alpha = 0
+        }
     }
     
     func showPrice() {
-        foodName.alpha = 1
-        price.alpha = 1
+        foodName.transform = CGAffineTransformMakeTranslation(0, -20)
+        price.transform = CGAffineTransformMakeTranslation(0, -20)
+        
+        UIView.animate(withDuration: 0.3) {
+            self.foodName.alpha = 1
+            self.price.alpha = 1
+            
+            self.foodName.transform = CGAffineTransformIdentity
+            self.price.transform = CGAffineTransformIdentity
+        }
     }
 }
 

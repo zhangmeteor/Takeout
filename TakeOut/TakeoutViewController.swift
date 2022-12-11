@@ -70,6 +70,10 @@ class TakeoutViewController: UIViewController {
         
         // try to retrive location at begining
         vm.locationManager.start()
+        
+        // initialize show price automatic
+        let foodView = vm.foodViews[currentIndex]
+        foodView.showPrice()
     }
     
     /// Using RxSwift for binding Data and UI
@@ -263,16 +267,16 @@ extension TakeoutViewController: UIScrollViewDelegate {
         let foodView = vm.foodViews[currentIndex]
         UIView.animate(withDuration: 0.3) {
             self.addItem.alpha = 1
-            foodView.showPrice()
         }
+        foodView.showPrice()
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         let foodView = vm.foodViews[currentIndex]
         UIView.animate(withDuration: 0.3) {
             self.addItem.alpha = 0
-            foodView.hidePrice()
         }
+        foodView.hidePrice()
     }
 
     
