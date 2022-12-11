@@ -191,24 +191,7 @@ class TakeoutViewController: UIViewController {
         }
 
         vm.foodAddPublish.accept(food)
-        
-//        container.addSubview(iconView)
-//        iconView.snp.makeConstraints { make in
-//            make.center.equalTo(self.addItem)
-//            make.size.equalTo(CGSize(width: 120, height: 120))
-//        }
-//        shoppingCard.append(food)
-//
-//        iconView.transform = CGAffineTransformIdentity
-//        iconView.transform = CGAffineTransformMakeScale(0, 0)
-//
-//        collideAlgorithm(food.position, icon: iconView)
-//
-//        /// update price ui
-//        let amound = shoppingCard.reduce(0, { $0 + $1.data.price})
-//        tabbar.updatePrice(amound)
     }
-    
     
     private func prepareScrollView() {
         container.addSubview(scrollView)

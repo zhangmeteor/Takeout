@@ -436,21 +436,6 @@ final class Tabbar: UIView {
             UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor
                     ], locations: [0, 1])
         btn.setTitle("Pay", for: .normal)
-//        btn.backgroundColor = UIColor(red: 255 / 255, green: 93 / 255, blue: 121 / 255, alpha: 1)
-//        btn.backgroundColor = UIColor.white
-        
-//        let layer0 = CAGradientLayer()
-//        layer0.colors = [
-//          UIColor(red: 0.992, green: 0, blue: 0.237, alpha: 1).cgColor,
-//          UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor
-//        ]
-//        layer0.locations = [0, 1]
-//        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-//        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
-//        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: -0.93, b: -1.33, c: 1.33, d: -0.93, tx: 1, ty: 1.19))
-//        layer0.bounds = btn.bounds.insetBy(dx: -0.5 * btn.bounds.size.width, dy: -0.5 * btn.bounds.size.height)
-//        layer0.position = btn.center
-//        btn.layer.addSublayer(layer0)
         
         return btn
     }()
@@ -551,18 +536,12 @@ final class GradientButton: UIButton {
         gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradient.endPoint = CGPoint(x: 1.0, y: 0)
     }
-//
-//    override func layoutSublayers(of layer: CALayer) {
-//        super.layoutSublayers(of: layer)
-//        gradient.frame = self.bounds
-//    }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         gradient.frame = self.bounds
        
         layer.insertSublayer(gradient, at: 0)
-//        layer.addSublayer(gradient)
     }
 }
 
