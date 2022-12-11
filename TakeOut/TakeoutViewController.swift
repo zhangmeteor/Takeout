@@ -19,9 +19,20 @@ class TakeoutViewController: UIViewController {
         return nav
     }()
     private lazy var tabbar: Tabbar = Tabbar()
+    private lazy var seprateLine: UILabel = {
+        let lb = UILabel()
+        lb.backgroundColor = UIColor(red: 242 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1)
+        
+        return lb
+    }()
     
     /// all view container
-    private lazy var container: UIView = UIView()
+    private lazy var container: UIView = {
+        let cView = UIView()
+        cView.backgroundColor = UIColor(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1)
+        
+        return cView
+    }()
     
     /// Top Animate UI using scrollview
     private lazy var scrollView: UIScrollView = {
@@ -63,6 +74,7 @@ class TakeoutViewController: UIViewController {
         prepareNavigator()
         prepareContainer()
         prepareTopAnimation()
+        prepareSeperate()
         prepareBottomAnimation()
         prepareMenu()
 
@@ -147,13 +159,23 @@ class TakeoutViewController: UIViewController {
         prepareItemAdd()
     }
     
+    private func prepareSeperate() {
+        view.addSubview(seprateLine)
+        seprateLine.snp.makeConstraints { make in
+            make.height.equalTo(3)
+            make.top.equalTo(scrollView.snp.bottom)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+    }
+    
     /// prepare bottom UI with animation
     private func prepareBottomAnimation() {
         // Bottom View
         container.addSubview(bottomView)
         bottomView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
-            make.top.equalTo(scrollView.snp.bottom)
+            make.top.equalTo(seprateLine.snp.bottom)
             make.centerX.equalToSuperview()
         }
         
