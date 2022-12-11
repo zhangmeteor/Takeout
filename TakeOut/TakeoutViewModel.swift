@@ -8,8 +8,10 @@
 import Foundation
 import UIKit
 import RxSwift
+import RxRelay
+import RxCocoa
 
-class TakeoutViewModel {
+class TakeoutViewModel: NSObject {
     var foodViews: [AnimateView] = []
     
     lazy var latte: LatteView = LatteView(food: Food(name: "LATTE", price: 3))
@@ -19,14 +21,39 @@ class TakeoutViewModel {
     
     lazy var stars: StarsView = StarsView()
     
+    /// shopping card added food view.
+//    var shoppingCart: [AnimateView] = []
+    var shoppingCart = BehaviorRelay<[AnimateView]>(value: [])
+    lazy var foodAddEvent: Signal<AnimateView> = {
+        return self.foodAddPublish.asSignal()
+    }()
+    let foodAddPublish: PublishRelay<AnimateView> = PublishRelay.init()
+
+    /// card totoal prices
     var totalPrices = BehaviorSubject<Int>(value: 0)
+    
+    /// Location update
     let locationManager = LocationManager.init()
     
-    init() {
+    override init() {
+        super.init()
+        
         foodViews = [fries, latte, burger, fries2]
         for (index, view) in foodViews.enumerated() {
             view.index = index
         }
+        
+        binding()
+    }
+    
+    private func binding() {
+        // add food in cart binding
+        foodAddEvent.emit(onNext: { [weak self] p in
+            guard let self = self else {
+                return
+            }
+            self.totalPrices.onNext(self.shoppingCart.value.reduce(0, { $0 + $1.data.price}))
+        }).disposed(by: self.rx.disposeBag)
     }
 }
 

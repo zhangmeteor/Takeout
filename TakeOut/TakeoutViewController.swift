@@ -41,8 +41,7 @@ class TakeoutViewController: UIViewController {
 
     /// Bottom Animate UI Container
     lazy var bottomView: UIView = UIView()
-    /// cache added food view.
-    var smallCache: [AnimateView] = []
+  
     /// added food on plates
     lazy var plates = UIImageView(image: UIImage(named: "plates"))
     
@@ -82,7 +81,48 @@ class TakeoutViewController: UIViewController {
                 
                 self.tabbar.updatePrice(p)
             }).disposed(by: self.rx.disposeBag)
-        
+      
+        /// add new food UI
+        vm.foodAddEvent.emit(onNext: { [weak self] food in
+            guard let self = self else { return }
+            let iconView = food.smallIcon
+            
+            self.container.addSubview(iconView)
+            iconView.snp.makeConstraints { make in
+                make.center.equalTo(self.addItem)
+                make.size.equalTo(CGSize(width: 120, height: 120))
+            }
+            
+            iconView.transform = CGAffineTransformIdentity
+            iconView.transform = CGAffineTransformMakeScale(0, 0)
+
+            // add food to shopping cart
+            self.vm.shoppingCart.accept(self.vm.shoppingCart.value + [food])
+        }).disposed(by: self.rx.disposeBag)
+                      
+        // refresh plates UI
+        vm.shoppingCart.subscribe(onNext: { [weak self] value in
+            guard let self = self else { return }
+            let food = self.vm.foodViews[self.currentIndex]
+            let iconView = food.smallIcon
+            
+            self.collideAlgorithm(food.position, icon: iconView)
+            
+//            container.addSubview(iconView)
+//            iconView.snp.makeConstraints { make in
+//                make.center.equalTo(self.addItem)
+//                make.size.equalTo(CGSize(width: 120, height: 120))
+//            }
+//
+//            iconView.transform = CGAffineTransformIdentity
+//            iconView.transform = CGAffineTransformMakeScale(0, 0)
+//
+//            collideAlgorithm(food.position, icon: iconView)
+//
+//            /// update price ui
+//            let amound = shoppingCard.reduce(0, { $0 + $1.data.price})
+//            tabbar.updatePrice(amound)
+        }).disposed(by: self.rx.disposeBag)
     }
     
     private func prepareContainer() {
@@ -149,22 +189,24 @@ class TakeoutViewController: UIViewController {
         guard iconView.superview != container else {
            return
         }
+
+        vm.foodAddPublish.accept(food)
         
-        container.addSubview(iconView)
-        iconView.snp.makeConstraints { make in
-            make.center.equalTo(self.addItem)
-            make.size.equalTo(CGSize(width: 120, height: 120))
-        }
-        smallCache.append(food)
-        
-        iconView.transform = CGAffineTransformIdentity
-        iconView.transform = CGAffineTransformMakeScale(0, 0)
-        
-        collideAlgorithm(food.position, icon: iconView)
-        
-        /// update price ui
-        let amound = smallCache.reduce(0, { $0 + $1.data.price})
-        tabbar.updatePrice(amound)
+//        container.addSubview(iconView)
+//        iconView.snp.makeConstraints { make in
+//            make.center.equalTo(self.addItem)
+//            make.size.equalTo(CGSize(width: 120, height: 120))
+//        }
+//        shoppingCard.append(food)
+//
+//        iconView.transform = CGAffineTransformIdentity
+//        iconView.transform = CGAffineTransformMakeScale(0, 0)
+//
+//        collideAlgorithm(food.position, icon: iconView)
+//
+//        /// update price ui
+//        let amound = shoppingCard.reduce(0, { $0 + $1.data.price})
+//        tabbar.updatePrice(amound)
     }
     
     
@@ -297,14 +339,14 @@ extension TakeoutViewController {
     /// left foot added
     /// if right food contains, move left to avoid collide
     private func leftPositionFlush(_ platesRect: CGRect) {
-        guard let leftView = smallCache.first(where: { $0.position == .left }) else {
+        guard let leftView = vm.shoppingCart.value.first(where: { $0.position == .left }) else {
             return
         }
         let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
         var tx = platesRect.origin.x + platesRect.size.width * 0.4 - self.addItem.frame.midX
         let ty = platesRect.origin.y + 0.5 * platesRect.size.height - self.addItem.frame.midY
 
-        if smallCache.first(where: { $0.position == .right }) != nil {
+        if vm.shoppingCart.value.first(where: { $0.position == .right }) != nil {
             tx = tx - TakeoutViewModel.Constant.smallViewCollideOffset
         }
 
@@ -313,7 +355,7 @@ extension TakeoutViewController {
     
     /// right foot added
     private func rightPositionFlush(_ platesRect: CGRect) {
-        guard let rightView = smallCache.first(where: { $0.position == .right }) else {
+        guard let rightView = vm.shoppingCart.value.first(where: { $0.position == .right }) else {
             return
         }
         let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
@@ -327,18 +369,18 @@ extension TakeoutViewController {
     /// if right food contains, move left to avoid collide
     /// if left food contains, move right to avoid collide
     private func middlePositionFlush(_ platesRect: CGRect) {
-        guard let middleView = smallCache.first(where: { $0.position == .middle }) else {
+        guard let middleView = vm.shoppingCart.value.first(where: { $0.position == .middle }) else {
             return
         }
         let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
         var tx = platesRect.origin.x + platesRect.width * 0.48 - self.addItem.frame.midX
         let ty = platesRect.origin.y - self.addItem.frame.size.height / 2 - self.addItem.frame.origin.y
         
-        if smallCache.first(where: { $0.position == .right }) != nil {
+        if vm.shoppingCart.value.first(where: { $0.position == .right }) != nil {
             tx = tx - TakeoutViewModel.Constant.smallViewCollideOffset
         }
         
-        if smallCache.first(where: { $0.position == .left }) != nil {
+        if vm.shoppingCart.value.first(where: { $0.position == .left }) != nil {
             tx = tx + TakeoutViewModel.Constant.smallViewCollideOffset
         }
         
