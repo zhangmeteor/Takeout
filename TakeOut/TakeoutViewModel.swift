@@ -50,7 +50,7 @@ class TakeoutViewModel: NSObject {
     
     private func binding() {
         // add food in cart binding
-        foodAddEvent.emit(onNext: { [weak self] p in
+        shoppingCart.subscribe(onNext: { [weak self] p in
             guard let self = self else {
                 return
             }
