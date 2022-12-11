@@ -396,11 +396,29 @@ fileprivate extension StarsView {
 final class Navigator: UIView {
     init() {
         super.init(frame: .zero)
-        backgroundColor = UIColor.blue
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateBackground()
+    }
+    
+    private func updateBackground() {
+        let layer0 = CAGradientLayer()
+        layer0.colors = [
+          UIColor(red: 0.992, green: 0, blue: 0.237, alpha: 1).cgColor,
+          UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor
+        ]
+        layer0.locations = [0, 1]
+        layer0.startPoint = CGPoint(x: 0, y: 0)
+        layer0.endPoint = CGPoint(x: 1, y: 0)
+        layer0.bounds = self.bounds.insetBy(dx: -0.5 * self.bounds.size.width, dy: -self.bounds.size.height / 2)
+        self.layer.addSublayer(layer0)
     }
 }
 
@@ -412,10 +430,27 @@ final class Tabbar: UIView {
         return lb
     }()
     
-    lazy var pay: UIButton = {
-        let btn = UIButton(type: .custom)
+    lazy var pay: GradientButton = {
+        let btn = GradientButton([
+            UIColor(red: 0.992, green: 0, blue: 0.237, alpha: 1).cgColor,
+            UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor
+                    ], locations: [0, 1])
         btn.setTitle("Pay", for: .normal)
-        btn.backgroundColor = UIColor(red: 255 / 255, green: 93 / 255, blue: 121 / 255, alpha: 1)
+//        btn.backgroundColor = UIColor(red: 255 / 255, green: 93 / 255, blue: 121 / 255, alpha: 1)
+//        btn.backgroundColor = UIColor.white
+        
+//        let layer0 = CAGradientLayer()
+//        layer0.colors = [
+//          UIColor(red: 0.992, green: 0, blue: 0.237, alpha: 1).cgColor,
+//          UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor
+//        ]
+//        layer0.locations = [0, 1]
+//        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
+//        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
+//        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: -0.93, b: -1.33, c: 1.33, d: -0.93, tx: 1, ty: 1.19))
+//        layer0.bounds = btn.bounds.insetBy(dx: -0.5 * btn.bounds.size.width, dy: -0.5 * btn.bounds.size.height)
+//        layer0.position = btn.center
+//        btn.layer.addSublayer(layer0)
         
         return btn
     }()
@@ -493,6 +528,43 @@ final class LocationView: UIView {
     }
 }
 
+final class GradientButton: UIButton {
+    let gradient: CAGradientLayer = CAGradientLayer()
+    
+    internal override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    internal required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    required init(_ colors: [CGColor], locations: [NSNumber]?) {
+        super.init(frame: .zero)
+        self.backgroundColor = .white
+        applyGradient(colors,locations:locations)
+    }
+    
+    func applyGradient(_ colors: [CGColor], locations: [NSNumber]?) {
+        gradient.colors = colors
+        gradient.locations = locations
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0)
+    }
+//
+//    override func layoutSublayers(of layer: CALayer) {
+//        super.layoutSublayers(of: layer)
+//        gradient.frame = self.bounds
+//    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradient.frame = self.bounds
+       
+        layer.insertSublayer(gradient, at: 0)
+//        layer.addSublayer(gradient)
+    }
+}
 
 
 extension Array where Element == StarsView.Path {
