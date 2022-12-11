@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 final class FriesView: BaseAnimateView {
-    lazy var friesBody = UIImageView(image: UIImage(named: "fries_body"))
-    lazy var friesLeft = UIImageView(image: UIImage(named: "fries_left"))
-    lazy var friesRight = UIImageView(image: UIImage(named: "fries_right"))
+    private lazy var friesBody = UIImageView(image: UIImage(named: "fries_body"))
+    private lazy var friesLeft = UIImageView(image: UIImage(named: "fries_left"))
+    private lazy var friesRight = UIImageView(image: UIImage(named: "fries_right"))
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -39,8 +39,6 @@ final class FriesView: BaseAnimateView {
             break
         }
         
-        print("fried: \(rate)")
-
         friesLeft.transform = CGAffineTransformMakeTranslation(0, rate * UIAnimationConfig.friesInfo.offset)
         friesRight.transform = CGAffineTransformMakeTranslation(0, rate * UIAnimationConfig.friesInfo.offset)
     }

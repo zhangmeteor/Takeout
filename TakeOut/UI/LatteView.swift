@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 final class LatteView: BaseAnimateView {
-    lazy var cup = UIImageView(image: UIImage(named: "latte_cup"))
-    lazy var wave = UIImageView(image: UIImage(named: "latte_wave"))
+    private lazy var cup = UIImageView(image: UIImage(named: "latte_cup"))
+    private lazy var wave = UIImageView(image: UIImage(named: "latte_wave"))
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -38,7 +38,6 @@ final class LatteView: BaseAnimateView {
         }
 
         wave.transform = CGAffineTransform(scaleX: rate, y: rate)
-        print("\(wave.frame.width), \(wave.frame.height)")
     }
     
     override func initializeLayout() {

@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 final class BuggerView: BaseAnimateView {
-    lazy var burgerTop = UIImageView(image: UIImage(named: "burger_top"))
-    lazy var burgerBottom = UIImageView(image: UIImage(named: "burger_bottom"))
+    private lazy var burgerTop = UIImageView(image: UIImage(named: "burger_top"))
+    private lazy var burgerBottom = UIImageView(image: UIImage(named: "burger_bottom"))
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -37,7 +37,6 @@ final class BuggerView: BaseAnimateView {
             break
         }
         
-        print("burger: \(rate)")
         burgerTop.transform = CGAffineTransformMakeTranslation(0, rate * UIAnimationConfig.burgerInfo.offset)
     }
     

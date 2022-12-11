@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 final class LocationView: UIView {
-    lazy var icon = UIImageView(image: UIImage(named: "map"))
-    lazy var position: UILabel = {
+    private lazy var icon = UIImageView(image: UIImage(named: "map"))
+    private(set) lazy var position: UILabel = {
         let lb = UILabel()
         lb.numberOfLines = 0
         lb.font = UIFont.systemFont(ofSize: 14)
@@ -18,7 +18,7 @@ final class LocationView: UIView {
         return lb
     }()
     
-    lazy var dail = {
+    private lazy var dail = {
         let btn = UIButton(type: .custom)
         btn.setImage(UIImage(named: "dail"), for: .normal)
         

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class Navigator: UIView {
-    var stackView: UIStackView?
+    private var stackView: UIStackView?
     
     init(menus: [UIImageView]) {
         super.init(frame: .zero)
@@ -83,14 +83,14 @@ final class Navigator: UIView {
 }
 
 final class Tabbar: UIView {
-    lazy var price: UILabel = {
+    private lazy var price: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.systemFont(ofSize: 28)
         
         return lb
     }()
     
-    lazy var pay: GradientButton = {
+    private lazy var pay: GradientButton = {
         let btn = GradientButton([
             UIColor(red: 0.992, green: 0, blue: 0.237, alpha: 1).cgColor,
             UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor

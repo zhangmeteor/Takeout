@@ -13,18 +13,18 @@ import RxCocoa
 class TakeoutViewController: UIViewController {
     let vm = TakeoutViewModel()
  
-    lazy var navigator: Navigator = {
+    private lazy var navigator: Navigator = {
         let nav = Navigator(menus: vm.menusViews)
         
         return nav
     }()
-    lazy var tabbar: Tabbar = Tabbar()
+    private lazy var tabbar: Tabbar = Tabbar()
     
     /// all view container
-    lazy var container: UIView = UIView()
+    private lazy var container: UIView = UIView()
     
     /// Top Animate UI using scrollview
-    lazy var scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrView = UIScrollView()
     
         scrView.delegate = self
@@ -36,26 +36,26 @@ class TakeoutViewController: UIViewController {
         return scrView
     }()
     
-    lazy var cachedScrollView: [AnimateView] = []
+    private lazy var cachedScrollView: [AnimateView] = []
     
     /// add food to plates button.
-    lazy var addItem: UIButton = {
+    private lazy var addItem: UIButton = {
         let btn = UIButton(type: .custom)
         btn.setImage(UIImage(named: "add_item"), for: .normal)
         return btn
     }()
 
     /// Bottom Animate UI Container
-    lazy var bottomView: UIView = UIView()
+    private lazy var bottomView: UIView = UIView()
   
     /// added food on plates
-    lazy var plates = UIImageView(image: UIImage(named: "plates"))
+    private lazy var plates = UIImageView(image: UIImage(named: "plates"))
     
     /// Location  information updated
-    lazy var locationView = LocationView()
+    private lazy var locationView = LocationView()
 
     /// Current food index.
-    var currentIndex = 0
+    private var currentIndex = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()

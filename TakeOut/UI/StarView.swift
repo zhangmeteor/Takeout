@@ -9,14 +9,12 @@ import Foundation
 import UIKit
 
 final class StarsView: UIView {
-    lazy var smallStar: UIImageView = UIImageView(image: UIImage(named: "start_small"))
-    lazy var middleStar: UIImageView = UIImageView(image: UIImage(named: "start_middle"))
-    lazy var largeStar: UIImageView = UIImageView(image: UIImage(named: "start_large"))
+    private lazy var smallStar: UIImageView = UIImageView(image: UIImage(named: "start_small"))
+    private lazy var middleStar: UIImageView = UIImageView(image: UIImage(named: "start_middle"))
+    private lazy var largeStar: UIImageView = UIImageView(image: UIImage(named: "start_large"))
     
     private var starPath: [StarType: [Path]] = [:]
-    
-    var lastFoodIndex: Int = 0
-  
+
     init() {
         super.init(frame: .zero)
         initializeLayout()
