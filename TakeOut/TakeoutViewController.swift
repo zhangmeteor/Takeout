@@ -336,6 +336,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
 
         // for current food, right means swap left
         // direction is the food moved direction.
+        // find current and next food with direction
         let direction = x > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
     
         var nextFood: AnimateView = currentFood
@@ -352,7 +353,8 @@ extension TakeoutViewController: UIScrollViewDelegate {
                 nextFood = cachedScrollView[foodIdx - 1]
             }
         }
-        
+       
+        // Notify Layout updates
         _ = cachedScrollView.map { food in
             // only current food and next food need animated update.
             if currentFood == food {
@@ -364,6 +366,13 @@ extension TakeoutViewController: UIScrollViewDelegate {
                 food.updateLayout(rate, direction: direction, animate: .animateIn)
                 return
             }
+        }
+        
+        // Star always need update
+        if let originFoodIndex = vm.foodViews.firstIndex(where: { food in
+            food.name == currentFood.name
+        }) {
+            vm.stars.updateLayout(rate, direction: direction, originFoodIndex: originFoodIndex)
         }
         
         

@@ -19,6 +19,9 @@ protocol AnimateView: UIView {
     /// data model for view
     var data: Food { get set }
     
+    /// Animate name
+    var name: String { set get }
+    
     /// initial using Food
     init(food: Food)
     /// update Layout anytime when scrollView changed
@@ -39,6 +42,7 @@ class BaseAnimateView: UIView, AnimateView {
     var smallIcon: UIImageView = UIImageView()
     var position: PlatePosition = .middle
     var data: Food
+    var name: String = "base"
     
     var redColor = UIColor(red: 235 / 255, green: 92 / 255, blue: 119 / 255, alpha: 1)
     lazy var foodName: UILabel = {
@@ -64,7 +68,6 @@ class BaseAnimateView: UIView, AnimateView {
         
         super.init(frame: .zero)
         initializeLayout()
-//        updateLayout(0, 0)
     }
     
     required init?(coder: NSCoder) {
@@ -132,6 +135,7 @@ final class FriesView: BaseAnimateView {
         
         self.position = .right
         self.smallIcon = UIImageView(image: UIImage(named: "fires_small"))
+        self.name = "Fires"
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
@@ -139,10 +143,7 @@ final class FriesView: BaseAnimateView {
             return
         }
         var rate = rate
-//        if let index = index, currentIdx != index - 1, index != 0 {
-//            rate = 1 - rate
-//        }
-        
+
         switch animate {
         case .animateIn:
             rate = 1 - rate
@@ -201,7 +202,7 @@ final class LatteView: BaseAnimateView {
         
         position = .middle
         smallIcon = UIImageView(image: UIImage(named: "latte_small"))
-
+        self.name = "Latte"
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
@@ -216,11 +217,7 @@ final class LatteView: BaseAnimateView {
         case .animateOut:
             rate = 1 - rate
         }
-//        if let index = index, currentIdx != index - 1 {
-//            rate = 1 - rate
-//        }
-//
-//        print("lattee rate: \(rate), idx: \(currentIdx)")
+
         wave.transform = CGAffineTransform(scaleX: rate, y: rate)
         print("\(wave.frame.width), \(wave.frame.height)")
     }
@@ -262,6 +259,7 @@ final class BuggerView: BaseAnimateView {
         
         position = .left
         smallIcon = UIImageView(image: UIImage(named: "burger_small"))
+        self.name = "Bugger"
     }
     
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
@@ -314,12 +312,13 @@ final class StarsView: UIView {
     lazy var largeStar: UIImageView = UIImageView(image: UIImage(named: "start_large"))
     
     private var starPath: [StarType: [Path]] = [:]
+    
+    var lastFoodIndex: Int = 0
   
     init() {
         super.init(frame: .zero)
         initializeLayout()
-        updateStarPath()
-//        updateLayout(0, 0)
+//        updateStarPath()
     }
     
     required init?(coder: NSCoder) {
@@ -332,8 +331,9 @@ final class StarsView: UIView {
         updateStarPath()
     }
     
-    public func updateLayout(_ rate: CGFloat, _ pathIdx: Int) {
-        print("rate: \(rate) - idx: \(pathIdx)")
+    
+    public func updateLayout(_ rate: CGFloat, direction: Direction, originFoodIndex pathIdx: Int) {
+        print("stars rate: \(rate)")
         
         if rate == 0 {
             return
@@ -392,15 +392,18 @@ fileprivate extension StarsView {
     func updateStarPath() {
         starPath = [.small: [
             Path(tx: self.frame.width * 0.5, ty: -self.frame.height * 0.25),
-            Path(tx: -self.frame.width * 0.1, ty: 0.6 * self.frame.height)
+            Path(tx: -self.frame.width * 0.1, ty: 0.6 * self.frame.height),
+            Path(tx: -self.frame.width * 0.4, ty: -self.frame.height * 0.35)
         ],
         .middle: [
             Path(tx: -self.frame.width * 0.55, ty: frame.height * 0.33),
-            Path(tx: 10, ty: -0.45 * self.frame.height)
+            Path(tx: 10, ty: -0.45 * self.frame.height),
+            Path(tx: self.frame.width * 0.55 - 10, ty: frame.height * 0.12)
         ],
         .large: [
             Path(tx: 0, ty: frame.height * 0.55),
-            Path(tx: -frame.width * 0.43, ty: 0)
+            Path(tx: -frame.width * 0.43, ty: 0),
+            Path(tx: frame.width * 0.43, ty: -frame.height * 0.55)
         ]
         ]
     }
