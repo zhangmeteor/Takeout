@@ -22,9 +22,14 @@ enum PlatePosition: Int {
     case right
 }
 
-enum PlateDirection {
+enum Direction {
     case left
     case right
+}
+
+enum AnimateType {
+    case animateIn
+    case animateOut
 }
 
 struct TopAnimate {

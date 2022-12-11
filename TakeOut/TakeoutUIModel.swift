@@ -23,14 +23,15 @@ protocol AnimateView: UIView {
     init(food: Food)
     /// update Layout anytime when scrollView changed
     /// rate range from 0...1, show the scrolled rate.
-    /// currentIdx: layout current Index
-    func updateLayout(_ rate: Double, _ currentIdx: Int)
+    /// currentFood
+    func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType)
     
     /// hide Price UI
     func hidePrice()
     /// show Price UI
     func showPrice()
 }
+
 
 // Base Animate for all food
 class BaseAnimateView: UIView, AnimateView {
@@ -63,7 +64,7 @@ class BaseAnimateView: UIView, AnimateView {
         
         super.init(frame: .zero)
         initializeLayout()
-        updateLayout(0, 0)
+//        updateLayout(0, 0)
     }
     
     required init?(coder: NSCoder) {
@@ -90,7 +91,7 @@ class BaseAnimateView: UIView, AnimateView {
         }
     }
     
-    func updateLayout(_ rate: Double, _ currentIdx: Int) {
+    func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
     }
     
     func hidePrice() {
@@ -133,12 +134,12 @@ final class FriesView: BaseAnimateView {
         self.smallIcon = UIImageView(image: UIImage(named: "fires_small"))
     }
     
-    override func updateLayout(_ rate: Double, _ currentIdx: Int) {
+    override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         var rate = rate
-        if let index = index, currentIdx != index - 1, index != 0 {
-            rate = 1 - rate
-        }
-        
+//        if let index = index, currentIdx != index - 1, index != 0 {
+//            rate = 1 - rate
+//        }
+//
         friesLeft.transform = CGAffineTransformMakeTranslation(0, rate * 200)
         friesRight.transform = CGAffineTransformMakeTranslation(0, rate * 200)
     }
@@ -191,17 +192,17 @@ final class LatteView: BaseAnimateView {
 
     }
     
-    override func updateLayout(_ rate: Double, _ currentIdx: Int) {
+    override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         if rate == 0 {
             return
         }
         
         var rate = rate
-        if let index = index, currentIdx != index - 1 {
-            rate = 1 - rate
-        }
-        
-        print("lattee rate: \(rate), idx: \(currentIdx)")
+//        if let index = index, currentIdx != index - 1 {
+//            rate = 1 - rate
+//        }
+//
+//        print("lattee rate: \(rate), idx: \(currentIdx)")
         wave.transform = CGAffineTransform(scaleX: rate, y: rate)
         print("\(wave.frame.width), \(wave.frame.height)")
     }
@@ -245,13 +246,22 @@ final class BuggerView: BaseAnimateView {
         smallIcon = UIImageView(image: UIImage(named: "burger_small"))
     }
     
-    override func updateLayout(_ rate: Double, _ currentIdx: Int) {
+    override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         if rate == 0 {
-            burgerTop.transform = CGAffineTransformIdentity
+//            burgerTop.transform = CGAffineTransformIdentity
             return
         }
-    
-        burgerTop.transform = CGAffineTransformMakeTranslation(0, (1 - rate) * Constant.expandHeight)
+       
+        var rate = rate
+        switch animate {
+        case .animateIn:
+            rate = 1 - rate
+        case .animateOut:
+            break
+        }
+//        let rate: Double = direction == .left ?  1 - rate : rate
+        print("burger: \(rate)")
+        burgerTop.transform = CGAffineTransformMakeTranslation(0, rate * Constant.expandHeight)
     }
     
     override func initializeLayout() {
@@ -274,18 +284,6 @@ final class BuggerView: BaseAnimateView {
             make.bottom.equalTo(burgerBottom.snp.bottom).offset(-40 - Constant.expandHeight)
             make.centerX.equalTo(burgerBottom)
         }
-        
-        addSubview(foodName)
-        foodName.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-47)
-            make.centerY.equalToSuperview().multipliedBy(0.6)
-        }
-        
-        addSubview(price)
-        price.snp.makeConstraints { make in
-            make.right.equalTo(foodName)
-            make.top.equalTo(foodName.snp.bottom)
-        }
     }
     
     struct Constant {
@@ -304,7 +302,7 @@ final class StarsView: UIView {
         super.init(frame: .zero)
         initializeLayout()
         updateStarPath()
-        updateLayout(0, 0)
+//        updateLayout(0, 0)
     }
     
     required init?(coder: NSCoder) {

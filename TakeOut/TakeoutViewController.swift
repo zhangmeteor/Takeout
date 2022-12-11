@@ -37,6 +37,8 @@ class TakeoutViewController: UIViewController {
         return scrView
     }()
     
+    lazy var cachedScrollView: [AnimateView] = []
+    
     /// add food to plates button.
     lazy var addItem: UIButton = {
         let btn = UIButton(type: .custom)
@@ -133,7 +135,7 @@ class TakeoutViewController: UIViewController {
     /// prepare top UI with animation
     private func prepareTopAnimation() {
         prepareScrollView()
-        prepareFoodLayout()
+        prepareFoodLayout(vm.foodViews, isInitialize: true)
         prepareOrnament()
         container.bringSubviewToFront(scrollView)
         prepareItemAdd()
@@ -173,9 +175,6 @@ class TakeoutViewController: UIViewController {
         _ = vm.menusViews.map { menu in
             navigator.addSubview(menu)
         }
-        
-       
-        
     }
    
     /// Add food to cart
@@ -228,12 +227,12 @@ class TakeoutViewController: UIViewController {
     }
     
     // Prepare UI layout, contains fries、latte、burger
-    private func prepareFoodLayout() {
+    private func prepareFoodLayout(_ data: [AnimateView], isInitialize: Bool) {
         var lastView: UIView?
         
-        _ = vm.foodViews.map { view in
-            scrollView.addSubview(view)
-            view.snp.makeConstraints { make in
+        _ = data.map { foodView in
+            scrollView.addSubview(foodView)
+            foodView.snp.makeConstraints { make in
                 make.size.equalToSuperview()
                 
                 guard let lastView = lastView else {
@@ -244,7 +243,11 @@ class TakeoutViewController: UIViewController {
                 make.left.equalTo(lastView.snp.right)
             }
             
-            lastView = view
+            lastView = foodView
+            
+            if isInitialize == true {
+                self.cachedScrollView.append(foodView)
+            }
         }
     }
     
@@ -260,22 +263,56 @@ class TakeoutViewController: UIViewController {
     }
 }
 
+// MARK: Loop scrollview
+extension TakeoutViewController {
+    /// move first element to last, this make loop happends
+    fileprivate func attachLoopView() {
+        guard let firstView = cachedScrollView.first else {
+            return
+        }
+        
+        cachedScrollView.remove(at: 0)
+        cachedScrollView.append(firstView)
+    }
+    
+    ///  remove all food view from superview
+    fileprivate func removeAllFoodView() {
+        _ = cachedScrollView.map { foodView in
+            foodView.removeFromSuperview()
+        }
+    }
+    
+    /// remake Scrollview to support loop, called this method when reach the edge.
+    fileprivate func remakeScrollView() {
+        attachLoopView()
+        removeAllFoodView()
+        prepareFoodLayout(cachedScrollView, isInitialize: false)
+        scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - view.frame.width, y: scrollView.contentOffset.y)
+    }
+}
+
 // MARK: ScrollView Delegate
 extension TakeoutViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
-        let foodView = vm.foodViews[currentIndex]
+        let foodView = cachedScrollView[currentIndex]
+        
         UIView.animate(withDuration: 0.3) {
             self.addItem.alpha = 1
         }
         foodView.showPrice()
+        
+        if currentIndex == cachedScrollView.count - 1 {
+            remakeScrollView()
+        }
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let foodView = vm.foodViews[currentIndex]
+        let foodView = cachedScrollView[currentIndex]
         UIView.animate(withDuration: 0.3) {
             self.addItem.alpha = 0
         }
+        
         foodView.hidePrice()
     }
 
@@ -284,34 +321,79 @@ extension TakeoutViewController: UIScrollViewDelegate {
 //        if scrollView.contentOffset.x < lastContentOffset.0 {
 //            return
 //        }
-       
+        let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
+        let currentFood = cachedScrollView[foodIdx]
+        
         let x = scrollView.contentOffset.x
         
-        if x < self.view.frame.width {
-            let rate = x / self.view.frame.width
-            _ = vm.foodViews.map { view in
-                view.updateLayout(rate, 0)
+        // rate means moved rate compare the whole page moved.
+        let rate =  1 - (self.view.frame.width * CGFloat(foodIdx + 1) - x) / self.view.frame.width
+
+        // for current food, right means swap left
+        // direction is the food moved direction.
+        var direction = x > CGFloat(currentIndex) * self.view.frame.width ? Direction.left : Direction.right
+    
+        var nextFood: AnimateView = currentFood
+        
+        switch direction {
+        case .left:
+            // if direction left, means moved to next page
+            if currentIndex + 1 < cachedScrollView.count {
+                nextFood = cachedScrollView[currentIndex + 1]
             }
-            vm.stars.updateLayout(rate, 0)
+        case .right:
+            // if direction right, means moved to pre page
+            if currentIndex - 1 > 0 {
+                nextFood = cachedScrollView[currentIndex - 1]
+            }
         }
         
-        if self.view.frame.width...self.view.frame.width * 2 ~= x {
-            let rate = 1 - (self.view.frame.width * 2 - x) / self.view.frame.width
-            
-            _ = vm.foodViews.map { view in
-                view.updateLayout(rate, 1)
+        _ = cachedScrollView.map { food in
+            // only current food and next food need animated update.
+            if currentFood == food {
+                food.updateLayout(rate, direction: direction, animate: .animateOut)
+                return
             }
-            vm.stars.updateLayout(rate, 1)
+            
+            if nextFood == food {
+                food.updateLayout(rate, direction: direction, animate: .animateIn)
+                return
+            }
         }
         
-        if self.view.frame.width * 2...self.view.frame.width * 3 ~= x {
-            let rate = (self.view.frame.width * 3 - x) / self.view.frame.width
-            _ = vm.foodViews.map { view in
-                view.updateLayout(rate, 2)
-            }
-            
-            vm.stars.updateLayout(rate, 2)
-        }
+        
+//
+//        // currentIdx is first
+//        if x < self.view.frame.width {
+//            let rate = x / self.view.frame.width
+//
+//            _ = cachedScrollView.map { food in
+//                if currentFood == food {
+//                    x >
+//                    food.updateLayout(rate, 0)
+//                }
+//                food.updateLayout(rate, 0)
+//            }
+//            vm.stars.updateLayout(rate, 0)
+//        }
+//
+//        if self.view.frame.width...self.view.frame.width * 2 ~= x {
+//            let rate = 1 - (self.view.frame.width * 2 - x) / self.view.frame.width
+//
+//            _ = vm.foodViews.map { view in
+//                view.updateLayout(rate, 1)
+//            }
+//            vm.stars.updateLayout(rate, 1)
+//        }
+//
+//        if self.view.frame.width * 2...self.view.frame.width * 3 ~= x {
+//            let rate = (self.view.frame.width * 3 - x) / self.view.frame.width
+//            _ = vm.foodViews.map { view in
+//                view.updateLayout(rate, 2)
+//            }
+//
+//            vm.stars.updateLayout(rate, 2)
+//        }
     }
 }
 
