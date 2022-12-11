@@ -408,23 +408,6 @@ final class Navigator: UIView {
     }
    
     func prepareStackView(_ menus: [UIImageView]) {
-//        stackView = UIStackView.init(arrangedSubviews: menus)
-//        guard let stackView = stackView else {
-//            return
-//        }
-//
-//        stackView.axis = .horizontal
-//        stackView.alignment = .fill
-//        stackView.distribution = .fillProportionally
-//        stackView.spacing = 10
-//        stackView.layoutMargins = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
-////        stackView.isLayoutMarginsRelativeArrangement = true
-//
-//        addSubview(stackView)
-//        stackView.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
-//        }
-       
         let widthRatio: Double = Double(1) / Double(menus.count)
         
         var lastMenu: UIImageView?
@@ -480,7 +463,6 @@ final class Navigator: UIView {
         layer0.startPoint = CGPoint(x: 0, y: 0)
         layer0.endPoint = CGPoint(x: 1, y: 0)
         layer0.bounds = self.bounds.insetBy(dx: -0.5 * self.bounds.size.width, dy: -self.bounds.size.height / 2)
-//        self.layer.addSublayer(layer0)
         self.layer.insertSublayer(layer0, at: 0)
     }
 }
