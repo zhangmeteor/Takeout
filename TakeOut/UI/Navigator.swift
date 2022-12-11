@@ -85,7 +85,7 @@ final class Navigator: UIView {
 final class Tabbar: UIView {
     private lazy var price: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 28)
+        lb.font = UIFont.systemFont(ofSize: 40)
         
         return lb
     }()
@@ -96,6 +96,7 @@ final class Tabbar: UIView {
             UIColor(red: 1, green: 0.363, blue: 0.473, alpha: 1).cgColor
                     ], locations: [0, 1])
         btn.setTitle("Pay", for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 32)
         
         return btn
     }()
@@ -118,7 +119,14 @@ final class Tabbar: UIView {
     }
     
     func updatePrice(_ amount: Int) {
-        price.text = "\(amount)$"
+        let unit = "$"
+        let rawStr = "\(amount)" + unit
+        let attribute = NSMutableAttributedString.init(string: rawStr)
+        
+        let range = (rawStr as NSString).range(of: unit)
+        
+        attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 35), range: range)
+        price.attributedText = attribute
     }
     
     required init?(coder: NSCoder) {

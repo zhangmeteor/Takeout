@@ -14,19 +14,22 @@ import RxCocoa
 class TakeoutViewModel: NSObject {
     private(set) var foodViews: [AnimateView] = []
     
-    lazy var latte: LatteView = LatteView(food: Food(name: "LATTE", price: 3))
-    lazy var fries: FriesView = FriesView(food: Food(name: "FRIES", price: 4))
-    lazy var burger: BuggerView = BuggerView(food: Food(name: "BURGER", price: 6))
+    private(set) lazy var latte: LatteView = LatteView(food: Food(name: "LATTE", price: 3))
+    private(set) lazy var fries: FriesView = FriesView(food: Food(name: "FRIES", price: 4))
+    private(set) lazy var burger: BuggerView = BuggerView(food: Food(name: "BURGER", price: 6))
     
-    let menusViews: [UIImageView] = [UIImageView.init(image: UIImage(named: "menu_recommend")), UIImageView.init(image: UIImage(named: "menu_burger")), UIImageView.init(image: UIImage(named: "menu_drink")), UIImageView.init(image: UIImage(named: "menu_food"))]
+    let menusViews: [UIImageView] = [UIImageView.init(image: UIImage(named: "menu_recommend")),
+                                     UIImageView.init(image: UIImage(named: "menu_burger")), UIImageView.init(image: UIImage(named: "menu_drink")), UIImageView.init(image: UIImage(named: "menu_food"))]
     
-    lazy var stars: StarsView = StarsView()
+    private(set) lazy var stars: StarsView = StarsView()
     
     /// shopping card added food view.
-    var shoppingCart = BehaviorRelay<[AnimateView]>(value: [])
-    lazy var foodAddEvent: Signal<AnimateView> = {
+    private(set) var shoppingCart = BehaviorRelay<[AnimateView]>(value: [])
+    
+    private(set) lazy var foodAddEvent: Signal<AnimateView> = {
         return self.foodAddPublish.asSignal()
     }()
+    
     let foodAddPublish: PublishRelay<AnimateView> = PublishRelay.init()
 
     /// card totoal prices
