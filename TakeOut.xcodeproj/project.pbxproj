@@ -15,10 +15,19 @@
 		AAAA65712940DC100076176B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAAA65702940DC100076176B /* Assets.xcassets */; };
 		AAAA65742940DC100076176B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAAA65722940DC100076176B /* LaunchScreen.storyboard */; };
 		AAAA65802940DD9F0076176B /* TakeoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA657F2940DD9F0076176B /* TakeoutViewModel.swift */; };
-		AAAA65AF29442FBD0076176B /* TakeoutUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65AE29442FBD0076176B /* TakeoutUIModel.swift */; };
+		AAAA65AF29442FBD0076176B /* UIAnimationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65AE29442FBD0076176B /* UIAnimationConfig.swift */; };
 		AAAA65B629451DEE0076176B /* TakeoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65B529451DEE0076176B /* TakeoutModel.swift */; };
 		AAAA65B92945303E0076176B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65B82945303E0076176B /* LocationManager.swift */; };
 		AAAA65BD2945AE080076176B /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65BC2945AE080076176B /* NSObject+.swift */; };
+		AAAA65C12946459D0076176B /* AnimateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C02946459D0076176B /* AnimateView.swift */; };
+		AAAA65C3294645C60076176B /* BaseAnimateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C2294645C60076176B /* BaseAnimateView.swift */; };
+		AAAA65C5294645E60076176B /* FriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C4294645E60076176B /* FriesView.swift */; };
+		AAAA65C72946460C0076176B /* LatteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C62946460C0076176B /* LatteView.swift */; };
+		AAAA65C92946462F0076176B /* BurgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C82946462F0076176B /* BurgerView.swift */; };
+		AAAA65CB2946464A0076176B /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65CA2946464A0076176B /* StarView.swift */; };
+		AAAA65CD294646830076176B /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65CC294646830076176B /* Navigator.swift */; };
+		AAAA65CF294646AD0076176B /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65CE294646AD0076176B /* LocationView.swift */; };
+		AAAA65D1294646D50076176B /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65D0294646D50076176B /* GradientButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,11 +42,20 @@
 		AAAA65732940DC100076176B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAAA65752940DC100076176B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAA657F2940DD9F0076176B /* TakeoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutViewModel.swift; sourceTree = "<group>"; };
-		AAAA65AE29442FBD0076176B /* TakeoutUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutUIModel.swift; sourceTree = "<group>"; };
+		AAAA65AE29442FBD0076176B /* UIAnimationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAnimationConfig.swift; sourceTree = "<group>"; };
 		AAAA65B529451DEE0076176B /* TakeoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutModel.swift; sourceTree = "<group>"; };
 		AAAA65B82945303E0076176B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		AAAA65BC2945AE080076176B /* NSObject+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		AAAA65BE2945B0170076176B /* TakeOut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TakeOut.entitlements; sourceTree = "<group>"; };
+		AAAA65C02946459D0076176B /* AnimateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateView.swift; sourceTree = "<group>"; };
+		AAAA65C2294645C60076176B /* BaseAnimateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAnimateView.swift; sourceTree = "<group>"; };
+		AAAA65C4294645E60076176B /* FriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriesView.swift; sourceTree = "<group>"; };
+		AAAA65C62946460C0076176B /* LatteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatteView.swift; sourceTree = "<group>"; };
+		AAAA65C82946462F0076176B /* BurgerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgerView.swift; sourceTree = "<group>"; };
+		AAAA65CA2946464A0076176B /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
+		AAAA65CC294646830076176B /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
+		AAAA65CE294646AD0076176B /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		AAAA65D0294646D50076176B /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		F609758516C9C8F4C43DD75C /* Pods-TakeOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TakeOut.debug.xcconfig"; path = "Target Support Files/Pods-TakeOut/Pods-TakeOut.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,11 +110,11 @@
 			isa = PBXGroup;
 			children = (
 				AAAA65BE2945B0170076176B /* TakeOut.entitlements */,
+				AAAA65BF294645780076176B /* UI */,
 				AAAA65B7294530240076176B /* Tools */,
 				AAAA65672940DC0E0076176B /* AppDelegate.swift */,
 				AAAA65692940DC0E0076176B /* SceneDelegate.swift */,
 				AAAA656B2940DC0E0076176B /* TakeoutViewController.swift */,
-				AAAA65AE29442FBD0076176B /* TakeoutUIModel.swift */,
 				AAAA657F2940DD9F0076176B /* TakeoutViewModel.swift */,
 				AAAA65B529451DEE0076176B /* TakeoutModel.swift */,
 				AAAA656D2940DC0E0076176B /* Main.storyboard */,
@@ -114,6 +132,23 @@
 				AAAA65B82945303E0076176B /* LocationManager.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		AAAA65BF294645780076176B /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				AAAA65AE29442FBD0076176B /* UIAnimationConfig.swift */,
+				AAAA65C02946459D0076176B /* AnimateView.swift */,
+				AAAA65C2294645C60076176B /* BaseAnimateView.swift */,
+				AAAA65C4294645E60076176B /* FriesView.swift */,
+				AAAA65C62946460C0076176B /* LatteView.swift */,
+				AAAA65C82946462F0076176B /* BurgerView.swift */,
+				AAAA65CA2946464A0076176B /* StarView.swift */,
+				AAAA65CC294646830076176B /* Navigator.swift */,
+				AAAA65CE294646AD0076176B /* LocationView.swift */,
+				AAAA65D0294646D50076176B /* GradientButton.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,13 +267,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAAA656C2940DC0E0076176B /* TakeoutViewController.swift in Sources */,
-				AAAA65AF29442FBD0076176B /* TakeoutUIModel.swift in Sources */,
+				AAAA65CF294646AD0076176B /* LocationView.swift in Sources */,
+				AAAA65C3294645C60076176B /* BaseAnimateView.swift in Sources */,
+				AAAA65AF29442FBD0076176B /* UIAnimationConfig.swift in Sources */,
+				AAAA65C5294645E60076176B /* FriesView.swift in Sources */,
 				AAAA65682940DC0E0076176B /* AppDelegate.swift in Sources */,
+				AAAA65C12946459D0076176B /* AnimateView.swift in Sources */,
 				AAAA65B92945303E0076176B /* LocationManager.swift in Sources */,
+				AAAA65C72946460C0076176B /* LatteView.swift in Sources */,
 				AAAA65B629451DEE0076176B /* TakeoutModel.swift in Sources */,
 				AAAA65BD2945AE080076176B /* NSObject+.swift in Sources */,
 				AAAA65802940DD9F0076176B /* TakeoutViewModel.swift in Sources */,
+				AAAA65CD294646830076176B /* Navigator.swift in Sources */,
 				AAAA656A2940DC0E0076176B /* SceneDelegate.swift in Sources */,
+				AAAA65CB2946464A0076176B /* StarView.swift in Sources */,
+				AAAA65D1294646D50076176B /* GradientButton.swift in Sources */,
+				AAAA65C92946462F0076176B /* BurgerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

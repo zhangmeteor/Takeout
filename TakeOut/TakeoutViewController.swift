@@ -13,7 +13,6 @@ import RxCocoa
 class TakeoutViewController: UIViewController {
     let vm = TakeoutViewModel()
  
-//    lazy var lastContentOffset: (CGFloat, CGFloat) = (0, 0)
     lazy var navigator: Navigator = {
         let nav = Navigator(menus: vm.menusViews)
         
@@ -70,7 +69,8 @@ class TakeoutViewController: UIViewController {
         UIBinding()
         updateInitialState()
     }
-    
+   
+    /// Initial State when View showed.
     private func updateInitialState() {
         // try to retrive location at begining
         vm.locationManager.start()
@@ -85,21 +85,22 @@ class TakeoutViewController: UIViewController {
     
     /// Using RxSwift for binding Data and UI
     private func UIBinding() {
+        /// localtion changed to update label.
         vm.locationManager.currentLocaltion
             .asObservable()
             .bind(to: locationView.position.rx.text)
             .disposed(by: self.rx.disposeBag)
         
+        /// shopcart foods total price
         vm.totalPrices
             .asObservable().subscribe(onNext: { [weak self] p in
                 guard let self = self else {
                     return
                 }
-                
                 self.tabbar.updatePrice(p)
             }).disposed(by: self.rx.disposeBag)
       
-        /// add new food UI
+        /// if shopcart added new food, refresh UI
         vm.foodAddEvent.emit(onNext: { [weak self] food in
             guard let self = self else { return }
             let iconView = food.smallIcon
@@ -107,7 +108,7 @@ class TakeoutViewController: UIViewController {
             self.container.addSubview(iconView)
             iconView.snp.makeConstraints { make in
                 make.center.equalTo(self.addItem)
-                make.size.equalTo(CGSize(width: 120, height: 120))
+                make.size.equalTo(Constant.iconSize)
             }
             
             iconView.transform = CGAffineTransformIdentity
@@ -159,17 +160,17 @@ class TakeoutViewController: UIViewController {
         // Plates
         bottomView.addSubview(plates)
         plates.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().multipliedBy(0.8)
+            make.centerY.equalToSuperview().multipliedBy(Constant.platesCenterRatio)
             make.centerX.equalToSuperview()
             let ratio = 825 / 363
-            make.width.equalTo(CGSize(width: ratio * 150, height: 150))
+            make.width.equalTo(CGSize(width: ratio * Constant.platesHeight, height: Constant.platesHeight))
         }
         
         // location View
         container.addSubview(locationView)
         locationView.snp.makeConstraints { make in
             make.bottom.equalTo(tabbar.snp.top)
-            make.height.equalTo(80)
+            make.height.equalTo(Constant.locationHeight)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
         }
@@ -187,8 +188,8 @@ class TakeoutViewController: UIViewController {
         container.addSubview(addItem)
         
         addItem.snp.makeConstraints { make in
-            make.size.equalTo(CGSize(width: 80, height: 80))
-            make.right.equalToSuperview().offset(-15)
+            make.size.equalTo(Constant.addItemSize)
+            make.right.equalToSuperview().offset(Constant.addItemRightPadding)
             make.bottom.equalTo(scrollView.snp.bottom)
         }
         
@@ -317,8 +318,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
         currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         let foodView = cachedScrollView[currentIndex]
         
-        print("currentIndex: \(currentIndex)")
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: UIAnimationConfig.addCartInfo.durtion) {
             self.addItem.alpha = 1
         }
         foodView.showPrice()
@@ -336,7 +336,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         let foodView = cachedScrollView[currentIndex]
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: UIAnimationConfig.addCartInfo.durtion) {
             self.addItem.alpha = 0
         }
         
@@ -345,14 +345,8 @@ extension TakeoutViewController: UIScrollViewDelegate {
 
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if scrollView.contentOffset.x < lastContentOffset.0 {
-//            return
-//        }
         let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
         let currentFood = cachedScrollView[foodIdx]
-        
-        print("foodIdx: \(foodIdx)")
-        print("contentOffset: \(scrollView.contentOffset.x)")
         
         let x = scrollView.contentOffset.x
         
@@ -409,7 +403,7 @@ extension TakeoutViewController {
         let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
         
         // Refresh all layout anytime if food added.
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: UIAnimationConfig.platesInfo.durtion) {
             self.leftPositionFlush(platesRect)
             self.rightPositionFlush(platesRect)
             self.middlePositionFlush(platesRect)
@@ -465,5 +459,16 @@ extension TakeoutViewController {
         }
         
         middleView.smallIcon.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(tx, ty), CGAffineTransformMakeScale(1, 1))
+    }
+}
+
+extension TakeoutViewController {
+    struct Constant {
+        static let iconSize = CGSize(width: 120, height: 120)
+        static let platesHeight = 150
+        static let platesCenterRatio = 0.8
+        static let locationHeight = 80
+        static let addItemSize = CGSize(width: 80, height: 80)
+        static let addItemRightPadding = -15
     }
 }

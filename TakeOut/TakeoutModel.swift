@@ -36,10 +36,3 @@ enum AnimateType {
     case animateIn
     case animateOut
 }
-
-struct TopAnimate {
-    static let leftPadding = 50
-    static let bottomPadding = 20
-    static let foodHeightRate: Double = 0.5
-    static let foodWidthRate: Double = 0.4
-}
