@@ -14,7 +14,11 @@ class TakeoutViewController: UIViewController {
     let vm = TakeoutViewModel()
  
 //    lazy var lastContentOffset: (CGFloat, CGFloat) = (0, 0)
-    lazy var navigator: Navigator = Navigator()
+    lazy var navigator: Navigator = {
+        let nav = Navigator(menus: vm.menusViews)
+        
+        return nav
+    }()
     lazy var tabbar: Tabbar = Tabbar()
     
     /// all view container
@@ -32,6 +36,7 @@ class TakeoutViewController: UIViewController {
         
         return scrView
     }()
+    
     /// add food to plates button.
     lazy var addItem: UIButton = {
         let btn = UIButton(type: .custom)
@@ -59,6 +64,7 @@ class TakeoutViewController: UIViewController {
         prepareContainer()
         prepareTopAnimation()
         prepareBottomAnimation()
+        prepareMenu()
 
         UIBinding()
         
@@ -107,24 +113,10 @@ class TakeoutViewController: UIViewController {
             let iconView = food.smallIcon
             
             self.collideAlgorithm(food.position, icon: iconView)
-            
-//            container.addSubview(iconView)
-//            iconView.snp.makeConstraints { make in
-//                make.center.equalTo(self.addItem)
-//                make.size.equalTo(CGSize(width: 120, height: 120))
-//            }
-//
-//            iconView.transform = CGAffineTransformIdentity
-//            iconView.transform = CGAffineTransformMakeScale(0, 0)
-//
-//            collideAlgorithm(food.position, icon: iconView)
-//
-//            /// update price ui
-//            let amound = shoppingCard.reduce(0, { $0 + $1.data.price})
-//            tabbar.updatePrice(amound)
         }).disposed(by: self.rx.disposeBag)
     }
     
+    /// prepare base container
     private func prepareContainer() {
         view.addSubview(container)
         container.snp.makeConstraints { make in
@@ -134,6 +126,7 @@ class TakeoutViewController: UIViewController {
         }
     }
     
+    /// prepare top UI with animation
     private func prepareTopAnimation() {
         prepareScrollView()
         prepareFoodLayout()
@@ -142,6 +135,7 @@ class TakeoutViewController: UIViewController {
         prepareItemAdd()
     }
     
+    /// prepare bottom UI with animation
     private func prepareBottomAnimation() {
         // Bottom View
         container.addSubview(bottomView)
@@ -170,6 +164,17 @@ class TakeoutViewController: UIViewController {
         }
     }
     
+    /// Prepare Menus
+    private func prepareMenu() {
+        _ = vm.menusViews.map { menu in
+            navigator.addSubview(menu)
+        }
+        
+       
+        
+    }
+   
+    /// Add food to cart
     fileprivate func prepareItemAdd() {
         container.addSubview(addItem)
         

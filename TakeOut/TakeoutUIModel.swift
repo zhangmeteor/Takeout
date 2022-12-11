@@ -394,13 +394,75 @@ fileprivate extension StarsView {
 }
 
 final class Navigator: UIView {
-    init() {
+    var stackView: UIStackView?
+    
+    init(menus: [UIImageView]) {
         super.init(frame: .zero)
         self.backgroundColor = .white
+        
+        prepareStackView(menus)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+   
+    func prepareStackView(_ menus: [UIImageView]) {
+//        stackView = UIStackView.init(arrangedSubviews: menus)
+//        guard let stackView = stackView else {
+//            return
+//        }
+//
+//        stackView.axis = .horizontal
+//        stackView.alignment = .fill
+//        stackView.distribution = .fillProportionally
+//        stackView.spacing = 10
+//        stackView.layoutMargins = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+////        stackView.isLayoutMarginsRelativeArrangement = true
+//
+//        addSubview(stackView)
+//        stackView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
+       
+        let widthRatio: Double = Double(1) / Double(menus.count)
+        
+        var lastMenu: UIImageView?
+        for (index, menu) in menus.enumerated() {
+            addSubview(menu)
+            
+            menu.contentMode = .scaleAspectFit
+            
+            defer {
+                lastMenu = menu
+            }
+            
+            guard let lastMenu = lastMenu else {
+                menu.snp.makeConstraints { make in
+                    make.left.equalToSuperview()
+                    make.centerY.equalToSuperview()
+                    make.width.equalToSuperview().multipliedBy(widthRatio)
+                }
+                
+                continue
+            }
+            
+            guard index < menus.count - 1 else {
+                menu.snp.makeConstraints { make in
+                    make.left.equalTo(lastMenu.snp.right)
+                    make.right.equalToSuperview()
+                    make.centerY.equalToSuperview()
+                    make.width.equalToSuperview().multipliedBy(widthRatio)
+                }
+                continue
+            }
+            
+            menu.snp.makeConstraints { make in
+                make.left.equalTo(lastMenu.snp.right)
+                make.centerY.equalToSuperview()
+                make.width.equalToSuperview().multipliedBy(widthRatio)
+            }
+        }
     }
     
     override func layoutSubviews() {
@@ -418,7 +480,8 @@ final class Navigator: UIView {
         layer0.startPoint = CGPoint(x: 0, y: 0)
         layer0.endPoint = CGPoint(x: 1, y: 0)
         layer0.bounds = self.bounds.insetBy(dx: -0.5 * self.bounds.size.width, dy: -self.bounds.size.height / 2)
-        self.layer.addSublayer(layer0)
+//        self.layer.addSublayer(layer0)
+        self.layer.insertSublayer(layer0, at: 0)
     }
 }
 

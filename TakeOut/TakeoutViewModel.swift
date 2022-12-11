@@ -19,6 +19,8 @@ class TakeoutViewModel: NSObject {
     lazy var burger: BuggerView = BuggerView(food: Food(name: "BURGER", price: 6))
     lazy var fries2: FriesView = FriesView(food: Food(name: "FRIES", price: 4))
     
+    let menusViews: [UIImageView] = [UIImageView.init(image: UIImage(named: "menu_recommend")), UIImageView.init(image: UIImage(named: "menu_burger")), UIImageView.init(image: UIImage(named: "menu_drink")), UIImageView.init(image: UIImage(named: "menu_food"))]
+    
     lazy var stars: StarsView = StarsView()
     
     /// shopping card added food view.
