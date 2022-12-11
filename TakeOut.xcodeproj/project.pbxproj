@@ -1,0 +1,465 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4D3B1ABC43D488FAB9B1506C /* Pods_TakeOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C79ABC8FEECDCB12430070A /* Pods_TakeOut.framework */; };
+		AAAA65682940DC0E0076176B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65672940DC0E0076176B /* AppDelegate.swift */; };
+		AAAA656A2940DC0E0076176B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65692940DC0E0076176B /* SceneDelegate.swift */; };
+		AAAA656C2940DC0E0076176B /* TakeoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA656B2940DC0E0076176B /* TakeoutViewController.swift */; };
+		AAAA656F2940DC0E0076176B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAAA656D2940DC0E0076176B /* Main.storyboard */; };
+		AAAA65712940DC100076176B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAAA65702940DC100076176B /* Assets.xcassets */; };
+		AAAA65742940DC100076176B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAAA65722940DC100076176B /* LaunchScreen.storyboard */; };
+		AAAA65802940DD9F0076176B /* TakeoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA657F2940DD9F0076176B /* TakeoutViewModel.swift */; };
+		AAAA65AF29442FBD0076176B /* TakeoutUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65AE29442FBD0076176B /* TakeoutUIModel.swift */; };
+		AAAA65B629451DEE0076176B /* TakeoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65B529451DEE0076176B /* TakeoutModel.swift */; };
+		AAAA65B92945303E0076176B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65B82945303E0076176B /* LocationManager.swift */; };
+		AAAA65BD2945AE080076176B /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65BC2945AE080076176B /* NSObject+.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4C79ABC8FEECDCB12430070A /* Pods_TakeOut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TakeOut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		835CE5D75817EF790263CE1C /* Pods-TakeOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TakeOut.release.xcconfig"; path = "Target Support Files/Pods-TakeOut/Pods-TakeOut.release.xcconfig"; sourceTree = "<group>"; };
+		AAAA65642940DC0E0076176B /* TakeOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TakeOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAAA65672940DC0E0076176B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AAAA65692940DC0E0076176B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		AAAA656B2940DC0E0076176B /* TakeoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutViewController.swift; sourceTree = "<group>"; };
+		AAAA656E2940DC0E0076176B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AAAA65702940DC100076176B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AAAA65732940DC100076176B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AAAA65752940DC100076176B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAAA657F2940DD9F0076176B /* TakeoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutViewModel.swift; sourceTree = "<group>"; };
+		AAAA65AE29442FBD0076176B /* TakeoutUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutUIModel.swift; sourceTree = "<group>"; };
+		AAAA65B529451DEE0076176B /* TakeoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeoutModel.swift; sourceTree = "<group>"; };
+		AAAA65B82945303E0076176B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		AAAA65BC2945AE080076176B /* NSObject+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
+		AAAA65BE2945B0170076176B /* TakeOut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TakeOut.entitlements; sourceTree = "<group>"; };
+		F609758516C9C8F4C43DD75C /* Pods-TakeOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TakeOut.debug.xcconfig"; path = "Target Support Files/Pods-TakeOut/Pods-TakeOut.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AAAA65612940DC0E0076176B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D3B1ABC43D488FAB9B1506C /* Pods_TakeOut.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7FB38E6DD31B6B7C4E0B3B7B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F609758516C9C8F4C43DD75C /* Pods-TakeOut.debug.xcconfig */,
+				835CE5D75817EF790263CE1C /* Pods-TakeOut.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		90F7B4CE5A403CA7216FC732 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C79ABC8FEECDCB12430070A /* Pods_TakeOut.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAAA655B2940DC0E0076176B = {
+			isa = PBXGroup;
+			children = (
+				AAAA65662940DC0E0076176B /* TakeOut */,
+				AAAA65652940DC0E0076176B /* Products */,
+				7FB38E6DD31B6B7C4E0B3B7B /* Pods */,
+				90F7B4CE5A403CA7216FC732 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AAAA65652940DC0E0076176B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAAA65642940DC0E0076176B /* TakeOut.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AAAA65662940DC0E0076176B /* TakeOut */ = {
+			isa = PBXGroup;
+			children = (
+				AAAA65BE2945B0170076176B /* TakeOut.entitlements */,
+				AAAA65B7294530240076176B /* Tools */,
+				AAAA65672940DC0E0076176B /* AppDelegate.swift */,
+				AAAA65692940DC0E0076176B /* SceneDelegate.swift */,
+				AAAA656B2940DC0E0076176B /* TakeoutViewController.swift */,
+				AAAA65AE29442FBD0076176B /* TakeoutUIModel.swift */,
+				AAAA657F2940DD9F0076176B /* TakeoutViewModel.swift */,
+				AAAA65B529451DEE0076176B /* TakeoutModel.swift */,
+				AAAA656D2940DC0E0076176B /* Main.storyboard */,
+				AAAA65702940DC100076176B /* Assets.xcassets */,
+				AAAA65722940DC100076176B /* LaunchScreen.storyboard */,
+				AAAA65752940DC100076176B /* Info.plist */,
+			);
+			path = TakeOut;
+			sourceTree = "<group>";
+		};
+		AAAA65B7294530240076176B /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				AAAA65BC2945AE080076176B /* NSObject+.swift */,
+				AAAA65B82945303E0076176B /* LocationManager.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AAAA65632940DC0E0076176B /* TakeOut */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAAA65782940DC100076176B /* Build configuration list for PBXNativeTarget "TakeOut" */;
+			buildPhases = (
+				B10F940E3C93CD6A9017C9D0 /* [CP] Check Pods Manifest.lock */,
+				AAAA65602940DC0E0076176B /* Sources */,
+				AAAA65612940DC0E0076176B /* Frameworks */,
+				AAAA65622940DC0E0076176B /* Resources */,
+				D805481EB83F987B225992B8 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TakeOut;
+			productName = TakeOut;
+			productReference = AAAA65642940DC0E0076176B /* TakeOut.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AAAA655C2940DC0E0076176B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					AAAA65632940DC0E0076176B = {
+						CreatedOnToolsVersion = 14.1;
+					};
+				};
+			};
+			buildConfigurationList = AAAA655F2940DC0E0076176B /* Build configuration list for PBXProject "TakeOut" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AAAA655B2940DC0E0076176B;
+			productRefGroup = AAAA65652940DC0E0076176B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AAAA65632940DC0E0076176B /* TakeOut */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AAAA65622940DC0E0076176B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAA65742940DC100076176B /* LaunchScreen.storyboard in Resources */,
+				AAAA65712940DC100076176B /* Assets.xcassets in Resources */,
+				AAAA656F2940DC0E0076176B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B10F940E3C93CD6A9017C9D0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TakeOut-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D805481EB83F987B225992B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TakeOut/Pods-TakeOut-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TakeOut/Pods-TakeOut-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TakeOut/Pods-TakeOut-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAAA65602940DC0E0076176B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAA656C2940DC0E0076176B /* TakeoutViewController.swift in Sources */,
+				AAAA65AF29442FBD0076176B /* TakeoutUIModel.swift in Sources */,
+				AAAA65682940DC0E0076176B /* AppDelegate.swift in Sources */,
+				AAAA65B92945303E0076176B /* LocationManager.swift in Sources */,
+				AAAA65B629451DEE0076176B /* TakeoutModel.swift in Sources */,
+				AAAA65BD2945AE080076176B /* NSObject+.swift in Sources */,
+				AAAA65802940DD9F0076176B /* TakeoutViewModel.swift in Sources */,
+				AAAA656A2940DC0E0076176B /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AAAA656D2940DC0E0076176B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAAA656E2940DC0E0076176B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AAAA65722940DC100076176B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAAA65732940DC100076176B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AAAA65762940DC100076176B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AAAA65772940DC100076176B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AAAA65792940DC100076176B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F609758516C9C8F4C43DD75C /* Pods-TakeOut.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TakeOut/TakeOut.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HN6X79BUSR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TakeOut/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.17lianqin.TakeOut;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AAAA657A2940DC100076176B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 835CE5D75817EF790263CE1C /* Pods-TakeOut.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TakeOut/TakeOut.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HN6X79BUSR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TakeOut/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.17lianqin.TakeOut;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AAAA655F2940DC0E0076176B /* Build configuration list for PBXProject "TakeOut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAA65762940DC100076176B /* Debug */,
+				AAAA65772940DC100076176B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAAA65782940DC100076176B /* Build configuration list for PBXNativeTarget "TakeOut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAA65792940DC100076176B /* Debug */,
+				AAAA657A2940DC100076176B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AAAA655C2940DC0E0076176B /* Project object */;
+}
