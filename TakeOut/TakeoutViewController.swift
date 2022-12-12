@@ -64,7 +64,7 @@ class TakeoutViewController: UIViewController {
     }()
 
     /// Shoping cart animate ui container
-    private lazy var bottomView: UIView = UIView()
+    private lazy var shopingCartView: UIView = UIView()
   
     /// the shoping cart plates ui
     private lazy var plates = UIImageView(image: UIImage(named: "plates"))
@@ -80,9 +80,9 @@ class TakeoutViewController: UIViewController {
         // Do any additional setup after loading the view.
         prepareNavigator()
         prepareContainer()
-        prepareTopAnimation()
+        prepareShowcase()
         prepareSeperate()
-        prepareBottomAnimation()
+        prepareShopingCartView()
         prepareMenu()
 
         UIBinding()
@@ -142,9 +142,9 @@ class TakeoutViewController: UIViewController {
     }
     
     /// prepare showcase ui with animation
-    private func prepareTopAnimation() {
+    private func prepareShowcase() {
         prepareScrollView()
-        prepareFoodLayout(vm.foodViews, isInitialize: true)
+        prepareShowcaseLayout(vm.foodViews, isInitialize: true)
         prepareOrnament()
         container.bringSubviewToFront(scrollView)
         prepareItemAdd()
@@ -162,17 +162,17 @@ class TakeoutViewController: UIViewController {
     }
     
     /// prepare shoping cart ui with animation
-    private func prepareBottomAnimation() {
+    private func prepareShopingCartView() {
         // Bottom View
-        container.addSubview(bottomView)
-        bottomView.snp.makeConstraints { make in
+        container.addSubview(shopingCartView)
+        shopingCartView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.top.equalTo(seprateLine.snp.bottom)
             make.centerX.equalToSuperview()
         }
         
         // plates view
-        bottomView.addSubview(plates)
+        shopingCartView.addSubview(plates)
         plates.snp.makeConstraints { make in
             make.centerY.equalToSuperview().multipliedBy(Constant.platesCenterRatio)
             make.centerX.equalToSuperview()
@@ -265,7 +265,7 @@ class TakeoutViewController: UIViewController {
     }
     
     // Prepare show case ui layout, contains fries、latte、burger
-    private func prepareFoodLayout(_ data: [AnimateView], isInitialize: Bool) {
+    private func prepareShowcaseLayout(_ data: [AnimateView], isInitialize: Bool) {
         var lastView: UIView?
         
         _ = data.map { foodView in
@@ -341,7 +341,7 @@ extension TakeoutViewController {
     fileprivate func remakeScrollView(_ position: Edge) {
         attachLoopView(position)
         removeAllFoodView()
-        prepareFoodLayout(cachedScrollView, isInitialize: false)
+        prepareShowcaseLayout(cachedScrollView, isInitialize: false)
         flushContentOffset(position)
     }
     
@@ -452,7 +452,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
 extension TakeoutViewController {
     /// collide algorithm for food added to cart together,
     private func collideAlgorithm(_ position: PlatePosition, icon: UIView) {
-        let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
+        let platesRect = self.shopingCartView.convert(self.plates.frame, to: self.container)
         
         // Refresh all layout anytime if food added.
         UIView.animate(withDuration: UIAnimationConfig.platesInfo.durtion) {
@@ -468,7 +468,7 @@ extension TakeoutViewController {
         guard let leftView = vm.shoppingCart.value.first(where: { $0.position == .left }) else {
             return
         }
-        let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
+        let platesRect = self.shopingCartView.convert(self.plates.frame, to: self.container)
         var tx = platesRect.origin.x + platesRect.size.width * 0.4 - self.addItem.frame.midX
         let ty = platesRect.origin.y + 0.5 * platesRect.size.height - self.addItem.frame.midY
 
@@ -484,7 +484,7 @@ extension TakeoutViewController {
         guard let rightView = vm.shoppingCart.value.first(where: { $0.position == .right }) else {
             return
         }
-        let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
+        let platesRect = self.shopingCartView.convert(self.plates.frame, to: self.container)
         let tx = platesRect.origin.x + platesRect.size.width * 0.66 - self.addItem.frame.midX
         let ty = platesRect.origin.y + 0.33 * platesRect.size.height - self.addItem.frame.midY
         
@@ -498,7 +498,7 @@ extension TakeoutViewController {
         guard let middleView = vm.shoppingCart.value.first(where: { $0.position == .middle }) else {
             return
         }
-        let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
+        let platesRect = self.shopingCartView.convert(self.plates.frame, to: self.container)
         var tx = platesRect.origin.x + platesRect.width * 0.48 - self.addItem.frame.midX
         let ty = platesRect.origin.y - self.addItem.frame.size.height / 2 - self.addItem.frame.origin.y
         
