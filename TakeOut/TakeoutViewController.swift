@@ -51,10 +51,7 @@ class TakeoutViewController: UIViewController {
         return scrView
     }()
     
-    /// scrollview views cache
-    /// because to support loop,
-    /// the sequece always changed, we need a cache to record current state.
-    private lazy var cachedScrollView: [AnimateView] = []
+
     
     /// add food to shoping cart button.
     private lazy var addItem: UIButton = {
@@ -74,6 +71,13 @@ class TakeoutViewController: UIViewController {
 
     /// the page index of visibale food in showcase.
     private var currentIndex = 0
+    
+    private var currentFood: AnimateView {
+        get {
+            let cacheList = vm.cachedFoodList.value
+            return cacheList[currentIndex]
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,8 +102,7 @@ class TakeoutViewController: UIViewController {
         remakeScrollView(.front)
         
         // force show current food price automatic at begining
-        let foodView = vm.foodViews[currentIndex]
-        foodView.showPrice()
+        currentFood.showPrice()
     }
     
     /// Using RxSwift for binding Data and UI
@@ -124,7 +127,7 @@ class TakeoutViewController: UIViewController {
         vm.shoppingCart
             .subscribe(onNext: { [weak self] value in
             guard let self = self else { return }
-                let food = self.cachedScrollView[self.currentIndex]
+                let food = self.currentFood
                 let iconView = food.smallIcon
                 
                 self.collideAlgorithm(food.position, icon: iconView)
@@ -134,6 +137,14 @@ class TakeoutViewController: UIViewController {
             .subscribe(onNext: { [weak self] offset in
             guard let self = self else { return }
                 self.flushAnimate(offset)
+        }).disposed(by: self.rx.disposeBag)
+        
+        vm.cachedFoodList
+            .skip(1)
+            .subscribe(onNext: { [weak self] scrollList in
+            guard let self = self else { return }
+                self.removeAllFoodView()
+                self.layoutFoods(scrollList)
         }).disposed(by: self.rx.disposeBag)
     }
     
@@ -150,7 +161,11 @@ class TakeoutViewController: UIViewController {
     /// prepare showcase ui with animation
     private func prepareShowcase() {
         prepareScrollView()
-        prepareShowcaseLayout(vm.foodViews, isInitialize: true)
+        
+        // layout foods and initailze cached foods list.
+        layoutFoods(vm.foodViews)
+        vm.cachedFoodList.accept(vm.foodViews)
+        
         prepareOrnament()
         container.bringSubviewToFront(scrollView)
         prepareItemAdd()
@@ -221,7 +236,7 @@ class TakeoutViewController: UIViewController {
     /// send food added event, to notify model and ui update.
     @objc
     func addItemToBottom() {
-        let food = cachedScrollView[currentIndex]
+        let food = currentFood
         let iconView = food.smallIcon
         guard iconView.superview != container else {
            return
@@ -271,9 +286,9 @@ class TakeoutViewController: UIViewController {
     }
     
     // Prepare show case ui layout, contains fries、latte、burger
-    private func prepareShowcaseLayout(_ data: [AnimateView], isInitialize: Bool) {
+    private func layoutFoods(_ data: [AnimateView]) {
         var lastView: UIView?
-        
+
         _ = data.map { foodView in
             scrollView.addSubview(foodView)
             foodView.snp.makeConstraints { make in
@@ -288,10 +303,6 @@ class TakeoutViewController: UIViewController {
             }
             
             lastView = foodView
-            
-            if isInitialize == true {
-                self.cachedScrollView.append(foodView)
-            }
         }
     }
     
@@ -310,8 +321,8 @@ class TakeoutViewController: UIViewController {
 extension TakeoutViewController {
     private func flushAnimate(_ offset: CGFloat) {
         let foodIdx = Int(offset) / Int(view.frame.size.width)
-        let currentFood = cachedScrollView[foodIdx]
-        
+        let cachedList = vm.cachedFoodList.value
+
         // rate means moved rate compare the whole page moved.
         let rate =  1 - (self.view.frame.width * CGFloat(foodIdx + 1) - offset) / self.view.frame.width
 
@@ -325,18 +336,18 @@ extension TakeoutViewController {
         switch direction {
         case .left:
             // if direction left, means moved to next page
-            if foodIdx + 1 < cachedScrollView.count {
-                nextFood = cachedScrollView[foodIdx + 1]
+            if foodIdx + 1 < cachedList.count {
+                nextFood = cachedList[foodIdx + 1]
             }
         case .right:
             // if direction right, means moved to pre page
             if foodIdx - 1 > 0 {
-                nextFood = cachedScrollView[foodIdx - 1]
+                nextFood = cachedList[foodIdx - 1]
             }
         }
        
         // Notify Layout updates
-        _ = cachedScrollView.map { food in
+        _ = cachedList.map { food in
             // only current food and next food need animated update.
             if currentFood == food {
                 food.updateLayout(rate, direction: direction, animate: .animateOut)
@@ -369,25 +380,28 @@ extension TakeoutViewController {
     /// move end element to firt,
     fileprivate func attachLoopView(_ position: Edge) {
         var index = 0
+        var cacheList = vm.cachedFoodList.value
         switch position {
         case .front:
-            index = cachedScrollView.count - 1
+            index = cacheList.count - 1
             
-            let replaceView = cachedScrollView[index]
-            cachedScrollView.remove(at: index)
-            cachedScrollView.insert(replaceView, at: 0)
+            let replaceView = cacheList[index]
+            cacheList.remove(at: index)
+            cacheList.insert(replaceView, at: 0)
         case .end:
             index = 0
             
-            let replaceView = cachedScrollView[index]
-            cachedScrollView.remove(at: index)
-            cachedScrollView.append(replaceView)
+            let replaceView = cacheList[index]
+            cacheList.remove(at: index)
+            cacheList.append(replaceView)
         }
+        
+        vm.cachedFoodList.accept(cacheList)
     }
     
     /// remove all food view from superview
     fileprivate func removeAllFoodView() {
-        _ = cachedScrollView.map { foodView in
+        _ = vm.cachedFoodList.value.map { foodView in
             foodView.removeFromSuperview()
         }
     }
@@ -399,8 +413,6 @@ extension TakeoutViewController {
     /// 4. update current page index and contentoffset
     fileprivate func remakeScrollView(_ position: Edge) {
         attachLoopView(position)
-        removeAllFoodView()
-        prepareShowcaseLayout(cachedScrollView, isInitialize: false)
         flushContentOffset(position)
     }
     
@@ -422,19 +434,19 @@ extension TakeoutViewController: UIScrollViewDelegate {
     /// when scrollview ended, update current page index and show food price ui.
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
-        let foodView = cachedScrollView[currentIndex]
+        let cacheList = vm.cachedFoodList.value
         
         UIView.animate(withDuration: UIAnimationConfig.addCartInfo.durtion) {
             self.addItem.alpha = 1
         }
-        foodView.showPrice()
+        currentFood.showPrice()
         
         if currentIndex == 0 {
             remakeScrollView(.front)
             currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         }
         
-        if currentIndex >= cachedScrollView.count - 1 {
+        if currentIndex >= cacheList.count - 1 {
             remakeScrollView(.end)
             currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         }
@@ -442,12 +454,11 @@ extension TakeoutViewController: UIScrollViewDelegate {
     
     /// when scrollview ended, hide food price ui.
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let foodView = cachedScrollView[currentIndex]
         UIView.animate(withDuration: UIAnimationConfig.addCartInfo.durtion) {
             self.addItem.alpha = 0
         }
         
-        foodView.hidePrice()
+        currentFood.hidePrice()
     }
 
     /// Scrolling action
@@ -456,56 +467,6 @@ extension TakeoutViewController: UIScrollViewDelegate {
     /// 3. update stars animation layout.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         vm.scrollContentOffset.accept(scrollView.contentOffset.x)
-//
-//        let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
-//        let currentFood = cachedScrollView[foodIdx]
-//
-//        let x = scrollView.contentOffset.x
-//
-//        // rate means moved rate compare the whole page moved.
-//        let rate =  1 - (self.view.frame.width * CGFloat(foodIdx + 1) - x) / self.view.frame.width
-//
-//        // for current food, right means swap left
-//        // direction is the food moved direction.
-//        // find current and next food with direction
-//        let direction = x > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
-//
-//        var nextFood: AnimateView = currentFood
-//
-//        switch direction {
-//        case .left:
-//            // if direction left, means moved to next page
-//            if foodIdx + 1 < cachedScrollView.count {
-//                nextFood = cachedScrollView[foodIdx + 1]
-//            }
-//        case .right:
-//            // if direction right, means moved to pre page
-//            if foodIdx - 1 > 0 {
-//                nextFood = cachedScrollView[foodIdx - 1]
-//            }
-//        }
-//
-//        // Notify Layout updates
-//        _ = cachedScrollView.map { food in
-//            // only current food and next food need animated update.
-//            if currentFood == food {
-//                food.updateLayout(rate, direction: direction, animate: .animateOut)
-//                return
-//            }
-//
-//            if nextFood == food {
-//                food.updateLayout(rate, direction: direction, animate: .animateIn)
-//                return
-//            }
-//        }
-//
-//        // Star always need update
-//        // update starts layout path rely on food index in foodViews.
-//        if let originFoodIndex = vm.foodViews.firstIndex(where: { food in
-//            food.name == currentFood.name
-//        }) {
-//            vm.stars.updateLayout(rate, direction: direction, originFoodIndex: originFoodIndex)
-//        }
     }
 }
 

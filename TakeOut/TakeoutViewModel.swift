@@ -29,6 +29,10 @@ class TakeoutViewModel: NSObject {
     
     /// shopping card, each time when shoping cart changed, this behavior will trigger.
     private(set) var shoppingCart = BehaviorRelay<[AnimateView]>(value: [])
+    /// scrollview views cache
+    /// because to support loop,
+    /// the sequece always changed, we need a cache to record current state.
+    lazy var cachedFoodList = BehaviorRelay<[AnimateView]>(value: [])
     
     /// make food add pubulisher to event.
     private(set) lazy var foodAddEvent: Signal<AnimateView> = {
