@@ -1,5 +1,5 @@
 //
-//  AnimateView.swift
+//  FoodView.swift
 //  TakeOut
 //
 //  Created by xiaomeng on 12/12/22.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol AnimateView: UIView {
+protocol FoodView: UIView {
     /// index inside scrollview
     var index: Int? { get set }
     /// buy icon image

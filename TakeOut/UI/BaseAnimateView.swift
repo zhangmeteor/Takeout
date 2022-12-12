@@ -1,5 +1,5 @@
 //
-//  BaseAnimateView.swift
+//  BaseFoodView.swift
 //  TakeOut
 //
 //  Created by xiaomeng on 12/12/22.
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // Base Animate for all food
-class BaseAnimateView: UIView, AnimateView {
+class BaseFoodView: UIView, FoodView {
     var index: Int?
     var smallIcon: UIImageView = UIImageView()
     var position: PlatePosition = .middle
@@ -93,7 +93,7 @@ class BaseAnimateView: UIView, AnimateView {
     }
 }
 
-extension BaseAnimateView {
+extension BaseFoodView {
     struct Constant {
         static let redColor = UIColor(red: 235 / 255, green: 92 / 255, blue: 119 / 255, alpha: 1)
         

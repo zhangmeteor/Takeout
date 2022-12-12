@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class BuggerView: BaseAnimateView {
+final class BuggerView: BaseFoodView {
     private lazy var burgerTop = UIImageView(image: UIImage(named: "burger_top"))
     private lazy var burgerBottom = UIImageView(image: UIImage(named: "burger_bottom"))
     

@@ -13,7 +13,7 @@ import RxCocoa
 
 class TakeoutViewModel: NSObject {
     /// supported foodViews container.
-    private(set) var foodViews: [AnimateView] = []
+    private(set) var foodViews: [FoodView] = []
     
     /// supported food ui models
     private(set) lazy var latte: LatteView = LatteView(food: Food(name: "LATTE", price: 3))
@@ -28,19 +28,19 @@ class TakeoutViewModel: NSObject {
     private(set) lazy var stars: StarsView = StarsView()
     
     /// shopping card, each time when shoping cart changed, this behavior will trigger.
-    private(set) var shoppingCart = BehaviorRelay<[AnimateView]>(value: [])
+    private(set) var shoppingCart = BehaviorRelay<[FoodView]>(value: [])
     /// scrollview views cache
     /// because to support loop,
     /// the sequece always changed, we need a cache to record current state.
-    lazy var cachedFoodList = BehaviorRelay<[AnimateView]>(value: [])
+    lazy var cachedFoodList = BehaviorRelay<[FoodView]>(value: [])
     
     /// make food add pubulisher to event.
-    private(set) lazy var foodAddEvent: Signal<AnimateView> = {
+    private(set) lazy var foodAddEvent: Signal<FoodView> = {
         return self.foodAddPublish.asSignal()
     }()
     
     /// food added publisher, each time add food to cart, this will changed.
-    let foodAddPublish: PublishRelay<AnimateView> = PublishRelay.init()
+    let foodAddPublish: PublishRelay<FoodView> = PublishRelay.init()
     
     /// Scroll rate update
     private(set) var scrollContentOffset = BehaviorRelay<CGFloat>(value: 0)

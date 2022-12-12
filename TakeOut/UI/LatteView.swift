@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class LatteView: BaseAnimateView {
+final class LatteView: BaseFoodView {
     private lazy var cup = UIImageView(image: UIImage(named: "latte_cup"))
     private lazy var wave = UIImageView(image: UIImage(named: "latte_wave"))
 

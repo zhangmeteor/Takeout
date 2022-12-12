@@ -51,8 +51,6 @@ class TakeoutViewController: UIViewController {
         return scrView
     }()
     
-
-    
     /// add food to shoping cart button.
     private lazy var addItem: UIButton = {
         let btn = UIButton(type: .custom)
@@ -71,8 +69,9 @@ class TakeoutViewController: UIViewController {
 
     /// the page index of visibale food in showcase.
     private var currentIndex = 0
-    
-    private var currentFood: AnimateView {
+   
+    /// current food view
+    private var currentFood: FoodView {
         get {
             let cacheList = vm.cachedFoodList.value
             return cacheList[currentIndex]
@@ -147,7 +146,10 @@ class TakeoutViewController: UIViewController {
                 self.layoutFoods(scrollList)
         }).disposed(by: self.rx.disposeBag)
     }
-    
+}
+
+// UI Basic Layout
+extension TakeoutViewController {
     /// prepare content container
     private func prepareContainer() {
         view.addSubview(container)
@@ -247,7 +249,7 @@ class TakeoutViewController: UIViewController {
     }
     
     /// add food to cart ui.
-    private func addFoodInCartUI(_ food: AnimateView) {
+    private func addFoodInCartUI(_ food: FoodView) {
         let iconView = food.smallIcon
         
         self.container.addSubview(iconView)
@@ -286,7 +288,7 @@ class TakeoutViewController: UIViewController {
     }
     
     // Prepare show case ui layout, contains fries、latte、burger
-    private func layoutFoods(_ data: [AnimateView]) {
+    private func layoutFoods(_ data: [FoodView]) {
         var lastView: UIView?
 
         _ = data.map { foodView in
@@ -331,7 +333,7 @@ extension TakeoutViewController {
         // find current and next food with direction
         let direction = offset > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
     
-        var nextFood: AnimateView = currentFood
+        var nextFood: FoodView = currentFood
         
         switch direction {
         case .left:

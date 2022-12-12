@@ -1,5 +1,5 @@
 //
-//  FriesAnimateView.swift
+//  FriesFoodView.swift
 //  TakeOut
 //
 //  Created by xiaomeng on 12/12/22.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class FriesView: BaseAnimateView {
+final class FriesView: BaseFoodView {
     private lazy var friesBody = UIImageView(image: UIImage(named: "fries_body"))
     private lazy var friesLeft = UIImageView(image: UIImage(named: "fries_left"))
     private lazy var friesRight = UIImageView(image: UIImage(named: "fries_right"))

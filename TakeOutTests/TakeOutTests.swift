@@ -24,7 +24,7 @@ final class TakeOutTests: XCTestCase {
         let disposeBag = DisposeBag()
         let expect = expectation(description: "Food added exception")
         
-        var lastView: AnimateView?
+        var lastView: FoodView?
         vm.shoppingCart.subscribe(onNext: { carts in
             lastView = carts.last
             if lastView != nil {
