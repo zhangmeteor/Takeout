@@ -112,31 +112,15 @@ class TakeoutViewController: UIViewController {
                 self.tabbar.updatePrice(p)
             }).disposed(by: self.rx.disposeBag)
       
-        /// if shopcart added new food, refresh UI
-        vm.foodAddEvent.emit(onNext: { [weak self] food in
-            guard let self = self else { return }
-            let iconView = food.smallIcon
-            
-            self.container.addSubview(iconView)
-            iconView.snp.makeConstraints { make in
-                make.center.equalTo(self.addItem)
-                make.size.equalTo(Constant.iconSize)
-            }
-            
-            iconView.transform = CGAffineTransformIdentity
-            iconView.transform = CGAffineTransformMakeScale(0, 0)
-
-            // add food to shopping cart
-            self.vm.shoppingCart.accept(self.vm.shoppingCart.value + [food])
-        }).disposed(by: self.rx.disposeBag)
-                      
+        // if shopcart added new food, refresh UI
         // refresh plates UI
-        vm.shoppingCart.subscribe(onNext: { [weak self] value in
+        vm.shoppingCart
+            .subscribe(onNext: { [weak self] value in
             guard let self = self else { return }
-            let food = self.cachedScrollView[self.currentIndex]
-            let iconView = food.smallIcon
-            
-            self.collideAlgorithm(food.position, icon: iconView)
+                let food = self.cachedScrollView[self.currentIndex]
+                let iconView = food.smallIcon
+                
+                self.collideAlgorithm(food.position, icon: iconView)
         }).disposed(by: self.rx.disposeBag)
     }
     
@@ -225,8 +209,23 @@ class TakeoutViewController: UIViewController {
         guard iconView.superview != container else {
            return
         }
-
+        
+        addCartIconUI(food)
         vm.foodAddPublish.accept(food)
+    }
+    
+    /// add single cart food if added.
+    private func addCartIconUI(_ food: AnimateView) {
+        let iconView = food.smallIcon
+        
+        self.container.addSubview(iconView)
+        iconView.snp.makeConstraints { make in
+            make.center.equalTo(self.addItem)
+            make.size.equalTo(Constant.iconSize)
+        }
+        
+        iconView.transform = CGAffineTransformIdentity
+        iconView.transform = CGAffineTransformMakeScale(0, 0)
     }
     
     private func prepareScrollView() {
@@ -331,6 +330,9 @@ extension TakeoutViewController {
         case .end:
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - view.frame.width, y: scrollView.contentOffset.y)
         }
+        
+        // Update current index
+        currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
     }
 }
 

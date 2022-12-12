@@ -18,12 +18,7 @@ final class TakeOutTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testAddFood() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testAddFoodAffetCart() throws {
         let vc: TakeoutViewController = TakeoutViewController()
         let _ = vc.view
         
@@ -46,11 +41,42 @@ final class TakeOutTests: XCTestCase {
         }
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    func testAddFoodTotalPrice() throws {
+        let vc: TakeoutViewController = TakeoutViewController()
+        let _ = vc.view
+        
+        let disposeBag = DisposeBag()
+        let expect = expectation(description: "Food total price exception")
+        
+        var totalPrice: Int = 0
+        
+        vc.vm.totalPrices.skip(3).subscribe(onNext: { price in
+            totalPrice = price
+            expect.fulfill()
+        }).disposed(by: disposeBag)
+                              
+        // Added
+        let newBuggerFood = BuggerView(food: Food(name: "BURGER", price: 4))
+        vc.vm.foodAddPublish.accept(newBuggerFood)
+        let newFiresFood = BuggerView(food: Food(name: "Fries", price: 3))
+        vc.vm.foodAddPublish.accept(newFiresFood)
+        let newLatteFood = BuggerView(food: Food(name: "Latte", price: 6))
+        vc.vm.foodAddPublish.accept(newLatteFood)
+        
+        
+        waitForExpectations(timeout: 10.0) {_ in
+            XCTAssertEqual(totalPrice, newBuggerFood.data.price + newFiresFood.data.price + newLatteFood.data.price)
         }
+    }
+
+    func testAddFoodTotalPrice() throws {
+        let vc: TakeoutViewController = TakeoutViewController()
+        let _ = vc.view
+        
+        let disposeBag = DisposeBag()
+        let expect = expectation(description: "Food total price exception")
+        
+        var totalPrice: Int = 0
     }
 
 }

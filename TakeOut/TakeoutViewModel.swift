@@ -42,8 +42,8 @@ class TakeoutViewModel: NSObject {
         super.init()
         
         foodViews = [fries, latte, burger]
-        for (index, view) in foodViews.enumerated() {
-            view.index = index
+        for (index, food) in foodViews.enumerated() {
+            food.index = index
         }
         
         binding()
@@ -55,6 +55,12 @@ class TakeoutViewModel: NSObject {
             .map { $0.reduce(0, { $0 + $1.data.price }) }
             .bind(to: totalPrices)
             .disposed(by: rx.disposeBag)
+        
+        foodAddEvent.emit(onNext: { [weak self] food in
+            guard let self = self else { return }
+            // add food to shopping cart
+            self.shoppingCart.accept(self.shoppingCart.value + [food])
+        }).disposed(by: self.rx.disposeBag)
     }
 }
 

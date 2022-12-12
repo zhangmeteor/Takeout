@@ -33,3 +33,4 @@ protocol AnimateView: UIView {
     /// show Price UI
     func showPrice()
 }
+

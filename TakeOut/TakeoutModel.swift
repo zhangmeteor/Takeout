@@ -7,9 +7,13 @@
 
 import Foundation
 
-struct Food {
+struct Food: Equatable {
     var name: String
     var price: Int
+    
+    static func == (lhs: Food, rhs: Food) -> Bool {
+        return lhs.name == rhs.name && lhs.price == rhs.price
+    }
 }
 
 struct UIConstant {
