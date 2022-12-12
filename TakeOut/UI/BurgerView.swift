@@ -22,7 +22,10 @@ final class BuggerView: BaseAnimateView {
         position = .left
         smallIcon = UIImageView(image: UIImage(named: "burger_small"))
     }
-    
+   
+    /// Burger animate
+    /// Move top burger away from bottom
+    /// animateIn and animateOut make the opposite direction transaction.
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         if rate == 0 {
             return

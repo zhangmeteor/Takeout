@@ -23,7 +23,10 @@ final class FriesView: BaseAnimateView {
         self.position = .right
         self.smallIcon = UIImageView(image: UIImage(named: "fires_small"))
     }
-    
+   
+    /// Fires animate
+    /// Move single fries up or down
+    /// animateIn and animateOut make the opposite direction transaction.
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         if rate == 0 {
             return

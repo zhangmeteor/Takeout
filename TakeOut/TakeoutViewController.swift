@@ -13,12 +13,16 @@ import RxCocoa
 class TakeoutViewController: UIViewController {
     var vm = TakeoutViewModel()
  
+    /// top menu bar ui
     private lazy var navigator: Navigator = {
         let nav = Navigator(menus: vm.menusViews)
         
         return nav
     }()
+    /// bottom bar,  totoal price and pay ui
     private lazy var tabbar: Tabbar = Tabbar()
+   
+    /// sperate line between food and shoping cart view.
     private lazy var seprateLine: UILabel = {
         let lb = UILabel()
         lb.backgroundColor = UIColor(red: 242 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1)
@@ -26,7 +30,7 @@ class TakeoutViewController: UIViewController {
         return lb
     }()
     
-    /// all view container
+    /// all content container, exclude the navgitor and tabbar
     private lazy var container: UIView = {
         let cView = UIView()
         cView.backgroundColor = UIColor(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1)
@@ -34,7 +38,7 @@ class TakeoutViewController: UIViewController {
         return cView
     }()
     
-    /// Top Animate UI using scrollview
+    /// Food showcase ui container using scrollview
     private lazy var scrollView: UIScrollView = {
         let scrView = UIScrollView()
     
@@ -47,25 +51,28 @@ class TakeoutViewController: UIViewController {
         return scrView
     }()
     
+    /// scrollview views cache
+    /// because to support loop,
+    /// the sequece always changed, we need a cache to record current state.
     private lazy var cachedScrollView: [AnimateView] = []
     
-    /// add food to plates button.
+    /// add food to shoping cart button.
     private lazy var addItem: UIButton = {
         let btn = UIButton(type: .custom)
         btn.setImage(UIImage(named: "add_item"), for: .normal)
         return btn
     }()
 
-    /// Bottom Animate UI Container
+    /// Shoping cart animate ui container
     private lazy var bottomView: UIView = UIView()
   
-    /// added food on plates
+    /// the shoping cart plates ui
     private lazy var plates = UIImageView(image: UIImage(named: "plates"))
     
-    /// Location  information updated
+    /// user location  information view inside shoping cart ui.
     private lazy var locationView = LocationView()
 
-    /// Current food index.
+    /// the page index of visibale food in showcase.
     private var currentIndex = 0
 
     override func viewDidLoad() {
@@ -82,15 +89,15 @@ class TakeoutViewController: UIViewController {
         updateInitialState()
     }
    
-    /// Initial State when View showed.
+    /// Initial state when View showed.
     private func updateInitialState() {
         // try to retrive location at begining
         vm.locationManager.start()
         
-        // scrollview move last to front to support loop
+        // scrollview should move last to front to support loop
         remakeScrollView(.front)
         
-        // initialize price automatic at begining
+        // force show current food price automatic at begining
         let foodView = vm.foodViews[currentIndex]
         foodView.showPrice()
     }
@@ -103,7 +110,7 @@ class TakeoutViewController: UIViewController {
             .bind(to: locationView.position.rx.text)
             .disposed(by: self.rx.disposeBag)
         
-        /// shopcart foods total price
+        /// shopcart foods total price affect the total price ui.
         vm.totalPrices
             .asObservable().subscribe(onNext: { [weak self] p in
                 guard let self = self else {
@@ -112,8 +119,8 @@ class TakeoutViewController: UIViewController {
                 self.tabbar.updatePrice(p)
             }).disposed(by: self.rx.disposeBag)
       
-        // if shopcart added new food, refresh UI
-        // refresh plates UI
+        // if shoping cart added new food,
+        // refresh plates ui.
         vm.shoppingCart
             .subscribe(onNext: { [weak self] value in
             guard let self = self else { return }
@@ -124,7 +131,7 @@ class TakeoutViewController: UIViewController {
         }).disposed(by: self.rx.disposeBag)
     }
     
-    /// prepare base container
+    /// prepare content container
     private func prepareContainer() {
         view.addSubview(container)
         container.snp.makeConstraints { make in
@@ -134,7 +141,7 @@ class TakeoutViewController: UIViewController {
         }
     }
     
-    /// prepare top UI with animation
+    /// prepare showcase ui with animation
     private func prepareTopAnimation() {
         prepareScrollView()
         prepareFoodLayout(vm.foodViews, isInitialize: true)
@@ -143,6 +150,7 @@ class TakeoutViewController: UIViewController {
         prepareItemAdd()
     }
     
+    /// prepare seperate line
     private func prepareSeperate() {
         view.addSubview(seprateLine)
         seprateLine.snp.makeConstraints { make in
@@ -153,7 +161,7 @@ class TakeoutViewController: UIViewController {
         }
     }
     
-    /// prepare bottom UI with animation
+    /// prepare shoping cart ui with animation
     private func prepareBottomAnimation() {
         // Bottom View
         container.addSubview(bottomView)
@@ -163,7 +171,7 @@ class TakeoutViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        // Plates
+        // plates view
         bottomView.addSubview(plates)
         plates.snp.makeConstraints { make in
             make.centerY.equalToSuperview().multipliedBy(Constant.platesCenterRatio)
@@ -182,14 +190,14 @@ class TakeoutViewController: UIViewController {
         }
     }
     
-    /// Prepare Menus
+    /// prepare menus on the top, inside navigator
     private func prepareMenu() {
         _ = vm.menusViews.map { menu in
             navigator.addSubview(menu)
         }
     }
    
-    /// Add food to cart
+    /// prepare shoping cart added button
     fileprivate func prepareItemAdd() {
         container.addSubview(addItem)
         
@@ -202,6 +210,9 @@ class TakeoutViewController: UIViewController {
         addItem.addTarget(self, action: #selector(addItemToBottom), for: .touchUpInside)
     }
     
+    /// added food action
+    /// first add ui to shoping cart
+    /// send food added event, to notify model and ui update.
     @objc
     func addItemToBottom() {
         let food = cachedScrollView[currentIndex]
@@ -210,12 +221,12 @@ class TakeoutViewController: UIViewController {
            return
         }
         
-        addCartIconUI(food)
+        addFoodInCartUI(food)
         vm.foodAddPublish.accept(food)
     }
     
-    /// add single cart food if added.
-    private func addCartIconUI(_ food: AnimateView) {
+    /// add food to cart ui.
+    private func addFoodInCartUI(_ food: AnimateView) {
         let iconView = food.smallIcon
         
         self.container.addSubview(iconView)
@@ -253,7 +264,7 @@ class TakeoutViewController: UIViewController {
         }
     }
     
-    // Prepare UI layout, contains fries、latte、burger
+    // Prepare show case ui layout, contains fries、latte、burger
     private func prepareFoodLayout(_ data: [AnimateView], isInitialize: Bool) {
         var lastView: UIView?
         
@@ -278,8 +289,7 @@ class TakeoutViewController: UIViewController {
         }
     }
     
-    // like. stars
-    // the initialize postion should rely on fries(first food)
+    // like. stars animate
     // warning: must called after prepareFoodLayout.
     private func prepareOrnament() {
         container.addSubview(vm.stars)
@@ -292,7 +302,12 @@ class TakeoutViewController: UIViewController {
 
 // MARK: Loop scrollview
 extension TakeoutViewController {
-    /// move first element to last, this make loop happends
+    /// this make scrollview loop happends
+    /// if at end edge,
+    /// move first element to last,
+    ///
+    /// if at front edge,
+    /// move end element to firt,
     fileprivate func attachLoopView(_ position: Edge) {
         var index = 0
         switch position {
@@ -311,7 +326,7 @@ extension TakeoutViewController {
         }
     }
     
-    ///  remove all food view from superview
+    /// remove all food view from superview
     fileprivate func removeAllFoodView() {
         _ = cachedScrollView.map { foodView in
             foodView.removeFromSuperview()
@@ -319,11 +334,18 @@ extension TakeoutViewController {
     }
     
     /// remake Scrollview to support loop, called this method when reach the edge.
+    /// 1. move view to edage.
+    /// 2. remove all foodviews.
+    /// 3. prepared layout.
+    /// 4. update current page index and contentoffset
     fileprivate func remakeScrollView(_ position: Edge) {
         attachLoopView(position)
         removeAllFoodView()
         prepareFoodLayout(cachedScrollView, isInitialize: false)
-        
+        flushContentOffset(position)
+    }
+    
+    fileprivate func flushContentOffset(_ position: Edge) {
         switch position {
         case .front:
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x + view.frame.width, y: scrollView.contentOffset.y)
@@ -338,6 +360,7 @@ extension TakeoutViewController {
 
 // MARK: ScrollView Delegate
 extension TakeoutViewController: UIScrollViewDelegate {
+    /// when scrollview ended, update current page index and show food price ui.
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
         let foodView = cachedScrollView[currentIndex]
@@ -358,6 +381,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
         }
     }
     
+    /// when scrollview ended, hide food price ui.
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         let foodView = cachedScrollView[currentIndex]
         UIView.animate(withDuration: UIAnimationConfig.addCartInfo.durtion) {
@@ -367,7 +391,10 @@ extension TakeoutViewController: UIScrollViewDelegate {
         foodView.hidePrice()
     }
 
-    
+    /// Scrolling action
+    /// 1. found the food affect by this scroll action.
+    /// 2. update affetted food animation layout with scroll direction.
+    /// 3. update stars animation layout.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
         let currentFood = cachedScrollView[foodIdx]
@@ -423,6 +450,7 @@ extension TakeoutViewController: UIScrollViewDelegate {
 
 // MARK: bottom animate algorithm
 extension TakeoutViewController {
+    /// collide algorithm for food added to cart together,
     private func collideAlgorithm(_ position: PlatePosition, icon: UIView) {
         let platesRect = self.bottomView.convert(self.plates.frame, to: self.container)
         

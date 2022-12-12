@@ -118,6 +118,7 @@ final class Tabbar: UIView {
         }
     }
     
+    /// price using dollor unit.
     func updatePrice(_ amount: Int) {
         let unit = "$"
         let rawStr = "\(amount)" + unit

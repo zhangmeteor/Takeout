@@ -30,7 +30,9 @@ final class StarsView: UIView {
         updateStarPath()
     }
     
-    
+    /// Stars animate
+    /// each star move using the path defined.
+    /// stars only rely on the origin food index (not the dynamic index by cache)
     public func updateLayout(_ rate: CGFloat, direction: Direction, originFoodIndex pathIdx: Int) {
         if rate == 0 {
             return
@@ -86,6 +88,7 @@ final class StarsView: UIView {
 
 /// Datas
 fileprivate extension StarsView {
+    /// star path for each star.
     func updateStarPath() {
         starPath = [.small: [
             Path(tx: self.frame.width * 0.5, ty: -self.frame.height * 0.25),

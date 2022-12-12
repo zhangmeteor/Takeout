@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+/// Location view
+/// contains location and dail button.
 final class LocationView: UIView {
     private lazy var icon = UIImageView(image: UIImage(named: "map"))
     private(set) lazy var position: UILabel = {

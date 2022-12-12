@@ -22,7 +22,10 @@ final class LatteView: BaseAnimateView {
         position = .middle
         smallIcon = UIImageView(image: UIImage(named: "latte_small"))
     }
-    
+   
+    /// Fires animate
+    /// wave using scales animation.
+    /// animateIn and animateOut make the opposite rate transaction.
     override func updateLayout(_ rate: Double, direction: Direction, animate: AnimateType) {
         if rate == 0 {
             return
