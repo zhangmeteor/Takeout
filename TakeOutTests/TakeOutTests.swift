@@ -19,14 +19,13 @@ final class TakeOutTests: XCTestCase {
     }
 
     func testAddFoodAffetCart() throws {
-        let vc: TakeoutViewController = TakeoutViewController()
-        let _ = vc.view
+        let vm = TakeoutViewModel()
         
         let disposeBag = DisposeBag()
         let expect = expectation(description: "Food added exception")
         
         var lastView: AnimateView?
-        vc.vm.shoppingCart.subscribe(onNext: { carts in
+        vm.shoppingCart.subscribe(onNext: { carts in
             lastView = carts.last
             if lastView != nil {
                 expect.fulfill()
@@ -34,7 +33,7 @@ final class TakeOutTests: XCTestCase {
         }).disposed(by: disposeBag)
                                
         let newBuggerFood = BuggerView(food: Food(name: "BURGER2", price: 10))
-        vc.vm.foodAddPublish.accept(newBuggerFood)
+        vm.foodAddPublish.accept(newBuggerFood)
         
         waitForExpectations(timeout: 10.0) {_ in
             XCTAssertEqual(lastView?.name, newBuggerFood.name)
@@ -42,26 +41,25 @@ final class TakeOutTests: XCTestCase {
     }
 
     func testAddFoodTotalPrice() throws {
-        let vc: TakeoutViewController = TakeoutViewController()
-        let _ = vc.view
-        
+        let vm = TakeoutViewModel()
+       
         let disposeBag = DisposeBag()
         let expect = expectation(description: "Food total price exception")
         
         var totalPrice: Int = 0
         
-        vc.vm.totalPrices.skip(3).subscribe(onNext: { price in
+        vm.totalPrices.skip(3).subscribe(onNext: { price in
             totalPrice = price
             expect.fulfill()
         }).disposed(by: disposeBag)
                               
         // Added
         let newBuggerFood = BuggerView(food: Food(name: "BURGER", price: 4))
-        vc.vm.foodAddPublish.accept(newBuggerFood)
+        vm.foodAddPublish.accept(newBuggerFood)
         let newFiresFood = BuggerView(food: Food(name: "Fries", price: 3))
-        vc.vm.foodAddPublish.accept(newFiresFood)
+        vm.foodAddPublish.accept(newFiresFood)
         let newLatteFood = BuggerView(food: Food(name: "Latte", price: 6))
-        vc.vm.foodAddPublish.accept(newLatteFood)
+        vm.foodAddPublish.accept(newLatteFood)
         
         
         waitForExpectations(timeout: 10.0) {_ in
@@ -69,14 +67,14 @@ final class TakeOutTests: XCTestCase {
         }
     }
 
-    func testAddFoodTotalPrice() throws {
-        let vc: TakeoutViewController = TakeoutViewController()
-        let _ = vc.view
-        
-        let disposeBag = DisposeBag()
-        let expect = expectation(description: "Food total price exception")
-        
-        var totalPrice: Int = 0
-    }
+//    func testAddFoodTotalPrice() throws {
+//        let vc: TakeoutViewController = TakeoutViewController()
+//        let _ = vc.view
+//
+//        let disposeBag = DisposeBag()
+//        let expect = expectation(description: "Food total price exception")
+//
+//        var totalPrice: Int = 0
+//    }
 
 }

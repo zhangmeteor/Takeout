@@ -331,7 +331,7 @@ extension TakeoutViewController {
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - view.frame.width, y: scrollView.contentOffset.y)
         }
         
-        // Update current index
+        // fix current index
         currentIndex = Int(scrollView.contentOffset.x / view.frame.size.width)
     }
 }
