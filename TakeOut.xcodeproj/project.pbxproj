@@ -20,7 +20,7 @@
 		AAAA65B629451DEE0076176B /* TakeoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65B529451DEE0076176B /* TakeoutModel.swift */; };
 		AAAA65B92945303E0076176B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65B82945303E0076176B /* LocationManager.swift */; };
 		AAAA65BD2945AE080076176B /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65BC2945AE080076176B /* NSObject+.swift */; };
-		AAAA65C12946459D0076176B /* AnimateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C02946459D0076176B /* AnimateView.swift */; };
+		AAAA65C12946459D0076176B /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C02946459D0076176B /* FoodView.swift */; };
 		AAAA65C3294645C60076176B /* BaseAnimateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C2294645C60076176B /* BaseAnimateView.swift */; };
 		AAAA65C5294645E60076176B /* FriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C4294645E60076176B /* FriesView.swift */; };
 		AAAA65C72946460C0076176B /* LatteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65C62946460C0076176B /* LatteView.swift */; };
@@ -30,6 +30,7 @@
 		AAAA65CF294646AD0076176B /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65CE294646AD0076176B /* LocationView.swift */; };
 		AAAA65D1294646D50076176B /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65D0294646D50076176B /* GradientButton.swift */; };
 		AAAA65E929465B3E0076176B /* TakeOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65E829465B3E0076176B /* TakeOutTests.swift */; };
+		AAAA65F12947625A0076176B /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA65F02947625A0076176B /* Tabbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +61,7 @@
 		AAAA65B82945303E0076176B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		AAAA65BC2945AE080076176B /* NSObject+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		AAAA65BE2945B0170076176B /* TakeOut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TakeOut.entitlements; sourceTree = "<group>"; };
-		AAAA65C02946459D0076176B /* AnimateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateView.swift; sourceTree = "<group>"; };
+		AAAA65C02946459D0076176B /* FoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodView.swift; sourceTree = "<group>"; };
 		AAAA65C2294645C60076176B /* BaseAnimateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAnimateView.swift; sourceTree = "<group>"; };
 		AAAA65C4294645E60076176B /* FriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriesView.swift; sourceTree = "<group>"; };
 		AAAA65C62946460C0076176B /* LatteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatteView.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		AAAA65D0294646D50076176B /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		AAAA65E629465B3E0076176B /* TakeOutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TakeOutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAA65E829465B3E0076176B /* TakeOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeOutTests.swift; sourceTree = "<group>"; };
+		AAAA65F02947625A0076176B /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
 		EA682FDA10525EF6FEDA12AF /* Pods-TakeOutTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TakeOutTests.debug.xcconfig"; path = "Target Support Files/Pods-TakeOutTests/Pods-TakeOutTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F609758516C9C8F4C43DD75C /* Pods-TakeOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TakeOut.debug.xcconfig"; path = "Target Support Files/Pods-TakeOut/Pods-TakeOut.debug.xcconfig"; sourceTree = "<group>"; };
 		F8BAD99AA4CAE97B96146DD3 /* Pods_TakeOutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TakeOutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,7 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAA65AE29442FBD0076176B /* UIAnimationConfig.swift */,
-				AAAA65C02946459D0076176B /* AnimateView.swift */,
+				AAAA65C02946459D0076176B /* FoodView.swift */,
 				AAAA65C2294645C60076176B /* BaseAnimateView.swift */,
 				AAAA65C4294645E60076176B /* FriesView.swift */,
 				AAAA65C62946460C0076176B /* LatteView.swift */,
@@ -177,6 +179,7 @@
 				AAAA65CC294646830076176B /* Navigator.swift */,
 				AAAA65CE294646AD0076176B /* LocationView.swift */,
 				AAAA65D0294646D50076176B /* GradientButton.swift */,
+				AAAA65F02947625A0076176B /* Tabbar.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -378,10 +381,11 @@
 				AAAA656C2940DC0E0076176B /* TakeoutViewController.swift in Sources */,
 				AAAA65CF294646AD0076176B /* LocationView.swift in Sources */,
 				AAAA65C3294645C60076176B /* BaseAnimateView.swift in Sources */,
+				AAAA65F12947625A0076176B /* Tabbar.swift in Sources */,
 				AAAA65AF29442FBD0076176B /* UIAnimationConfig.swift in Sources */,
 				AAAA65C5294645E60076176B /* FriesView.swift in Sources */,
 				AAAA65682940DC0E0076176B /* AppDelegate.swift in Sources */,
-				AAAA65C12946459D0076176B /* AnimateView.swift in Sources */,
+				AAAA65C12946459D0076176B /* FoodView.swift in Sources */,
 				AAAA65B92945303E0076176B /* LocationManager.swift in Sources */,
 				AAAA65C72946460C0076176B /* LatteView.swift in Sources */,
 				AAAA65B629451DEE0076176B /* TakeoutModel.swift in Sources */,

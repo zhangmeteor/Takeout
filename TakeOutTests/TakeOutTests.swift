@@ -66,15 +66,4 @@ final class TakeOutTests: XCTestCase {
             XCTAssertEqual(totalPrice, newBuggerFood.data.price + newFiresFood.data.price + newLatteFood.data.price)
         }
     }
-
-//    func testAddFoodTotalPrice() throws {
-//        let vc: TakeoutViewController = TakeoutViewController()
-//        let _ = vc.view
-//
-//        let disposeBag = DisposeBag()
-//        let expect = expectation(description: "Food total price exception")
-//
-//        var totalPrice: Int = 0
-//    }
-
 }

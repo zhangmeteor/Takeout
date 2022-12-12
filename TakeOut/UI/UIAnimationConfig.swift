@@ -19,6 +19,7 @@ class UIAnimationConfig {
     static let burgerInfo: AnimationInfo = AnimationInfo(offset: 60, durtion: 0)
     static let addCartInfo: AnimationInfo = AnimationInfo(offset: 0, durtion: 0.3)
     static let platesInfo: AnimationInfo = AnimationInfo(offset: 0, durtion: 0.5)
+    static let priceInfo: AnimationInfo = AnimationInfo(offset: 0, durtion: 0.5)
 }
 
 struct TopAnimate {
