@@ -37,6 +37,9 @@ class TakeoutViewModel: NSObject {
     
     /// food added publisher, each time add food to cart, this will changed.
     let foodAddPublish: PublishRelay<AnimateView> = PublishRelay.init()
+    
+    /// Scroll rate update
+    private(set) var scrollContentOffset = BehaviorRelay<CGFloat>(value: 0)
 
     /// card totoal prices
     private(set) var totalPrices = BehaviorSubject<Int>(value: 0)

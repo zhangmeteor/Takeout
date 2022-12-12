@@ -129,6 +129,12 @@ class TakeoutViewController: UIViewController {
                 
                 self.collideAlgorithm(food.position, icon: iconView)
         }).disposed(by: self.rx.disposeBag)
+        
+        vm.scrollContentOffset
+            .subscribe(onNext: { [weak self] offset in
+            guard let self = self else { return }
+                self.flushAnimate(offset)
+        }).disposed(by: self.rx.disposeBag)
     }
     
     /// prepare content container
@@ -300,6 +306,59 @@ class TakeoutViewController: UIViewController {
     }
 }
 
+// MARK: Flush Animate
+extension TakeoutViewController {
+    private func flushAnimate(_ offset: CGFloat) {
+        let foodIdx = Int(offset) / Int(view.frame.size.width)
+        let currentFood = cachedScrollView[foodIdx]
+        
+        // rate means moved rate compare the whole page moved.
+        let rate =  1 - (self.view.frame.width * CGFloat(foodIdx + 1) - offset) / self.view.frame.width
+
+        // for current food, right means swap left
+        // direction is the food moved direction.
+        // find current and next food with direction
+        let direction = offset > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
+    
+        var nextFood: AnimateView = currentFood
+        
+        switch direction {
+        case .left:
+            // if direction left, means moved to next page
+            if foodIdx + 1 < cachedScrollView.count {
+                nextFood = cachedScrollView[foodIdx + 1]
+            }
+        case .right:
+            // if direction right, means moved to pre page
+            if foodIdx - 1 > 0 {
+                nextFood = cachedScrollView[foodIdx - 1]
+            }
+        }
+       
+        // Notify Layout updates
+        _ = cachedScrollView.map { food in
+            // only current food and next food need animated update.
+            if currentFood == food {
+                food.updateLayout(rate, direction: direction, animate: .animateOut)
+                return
+            }
+            
+            if nextFood == food {
+                food.updateLayout(rate, direction: direction, animate: .animateIn)
+                return
+            }
+        }
+        
+        // Star always need update
+        // update starts layout path rely on food index in foodViews.
+        if let originFoodIndex = vm.foodViews.firstIndex(where: { food in
+            food.name == currentFood.name
+        }) {
+            vm.stars.updateLayout(rate, direction: direction, originFoodIndex: originFoodIndex)
+        }
+    }
+}
+
 // MARK: Loop scrollview
 extension TakeoutViewController {
     /// this make scrollview loop happends
@@ -396,55 +455,57 @@ extension TakeoutViewController: UIScrollViewDelegate {
     /// 2. update affetted food animation layout with scroll direction.
     /// 3. update stars animation layout.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
-        let currentFood = cachedScrollView[foodIdx]
-        
-        let x = scrollView.contentOffset.x
-        
-        // rate means moved rate compare the whole page moved.
-        let rate =  1 - (self.view.frame.width * CGFloat(foodIdx + 1) - x) / self.view.frame.width
-
-        // for current food, right means swap left
-        // direction is the food moved direction.
-        // find current and next food with direction
-        let direction = x > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
-    
-        var nextFood: AnimateView = currentFood
-        
-        switch direction {
-        case .left:
-            // if direction left, means moved to next page
-            if foodIdx + 1 < cachedScrollView.count {
-                nextFood = cachedScrollView[foodIdx + 1]
-            }
-        case .right:
-            // if direction right, means moved to pre page
-            if foodIdx - 1 > 0 {
-                nextFood = cachedScrollView[foodIdx - 1]
-            }
-        }
-       
-        // Notify Layout updates
-        _ = cachedScrollView.map { food in
-            // only current food and next food need animated update.
-            if currentFood == food {
-                food.updateLayout(rate, direction: direction, animate: .animateOut)
-                return
-            }
-            
-            if nextFood == food {
-                food.updateLayout(rate, direction: direction, animate: .animateIn)
-                return
-            }
-        }
-        
-        // Star always need update
-        // update starts layout path rely on food index in foodViews.
-        if let originFoodIndex = vm.foodViews.firstIndex(where: { food in
-            food.name == currentFood.name
-        }) {
-            vm.stars.updateLayout(rate, direction: direction, originFoodIndex: originFoodIndex)
-        }
+        vm.scrollContentOffset.accept(scrollView.contentOffset.x)
+//
+//        let foodIdx = Int(scrollView.contentOffset.x) / Int(view.frame.size.width)
+//        let currentFood = cachedScrollView[foodIdx]
+//
+//        let x = scrollView.contentOffset.x
+//
+//        // rate means moved rate compare the whole page moved.
+//        let rate =  1 - (self.view.frame.width * CGFloat(foodIdx + 1) - x) / self.view.frame.width
+//
+//        // for current food, right means swap left
+//        // direction is the food moved direction.
+//        // find current and next food with direction
+//        let direction = x > CGFloat(foodIdx) * self.view.frame.width ? Direction.left : Direction.right
+//
+//        var nextFood: AnimateView = currentFood
+//
+//        switch direction {
+//        case .left:
+//            // if direction left, means moved to next page
+//            if foodIdx + 1 < cachedScrollView.count {
+//                nextFood = cachedScrollView[foodIdx + 1]
+//            }
+//        case .right:
+//            // if direction right, means moved to pre page
+//            if foodIdx - 1 > 0 {
+//                nextFood = cachedScrollView[foodIdx - 1]
+//            }
+//        }
+//
+//        // Notify Layout updates
+//        _ = cachedScrollView.map { food in
+//            // only current food and next food need animated update.
+//            if currentFood == food {
+//                food.updateLayout(rate, direction: direction, animate: .animateOut)
+//                return
+//            }
+//
+//            if nextFood == food {
+//                food.updateLayout(rate, direction: direction, animate: .animateIn)
+//                return
+//            }
+//        }
+//
+//        // Star always need update
+//        // update starts layout path rely on food index in foodViews.
+//        if let originFoodIndex = vm.foodViews.firstIndex(where: { food in
+//            food.name == currentFood.name
+//        }) {
+//            vm.stars.updateLayout(rate, direction: direction, originFoodIndex: originFoodIndex)
+//        }
     }
 }
 
